@@ -5,4 +5,4 @@ target/
 ### Build files
 */*/target/*
 *.map
-application-*.yaml
+application-dev.yaml
