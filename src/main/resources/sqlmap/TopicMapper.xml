@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.beau.repository.mapper.TopicMapper">
+    <resultMap id="TopicMapperMap" type="cn.beau.repository.model.TopicEntity">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="topic_name" property="topicName" jdbcType="VARCHAR"/>
+        <result column="topic_pic" property="topicPic" jdbcType="VARCHAR"/>
+        <result column="topic_type" property="topicType" jdbcType="INTEGER"/>
+        <result column="create_id" property="createId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_id" property="updateId" jdbcType="INTEGER"/>
+        <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="topic_position" property="topicPosition" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="BASE_COLUMN_LIST">
+        *
+    </sql>
+
+    <sql id="where">
+        <where>
+            deleted=0
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="topicName != null and topicName!= ''">
+                and topic_name = #{topicName}
+            </if>
+            <if test="topicType != null ">
+                and topic_type = #{topicType}
+            </if>
+            <if test="position != null ">
+                and `position` = #{position}
+            </if>
+        </where>
+    </sql>
+
+    <select id="queryTopicArticleCount" parameterType="cn.beau.repository.model.TopicEntity"
+            resultType="cn.beau.dto.response.TopicCountVo">
+        SELECT t.topic_name as topicName,topic_pic as topicPic,t.update_time as updateTime,COUNT(a.id) as articleCount,t.id
+        from t_topic t left JOIN t_article a on t.id = a.topic_id
+        <where>
+            t.deleted = 0
+            <if test="topicType != null">
+                and t.topic_type=#{topicType}
+            </if>
+        </where>
+        GROUP BY t.id
+        limit 4
+    </select>
+</mapper>

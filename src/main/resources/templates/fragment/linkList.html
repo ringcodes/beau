@@ -1,0 +1,16 @@
+<div class="mt-link">
+    <div class="mt-link-wrap">
+        <div class="mt-link-title">
+            <div>常用网站</div>
+        </div>
+    </div>
+    <div class="mt-link-body">
+        <% for(vo in linkList){ %>
+        <div class="mt-link-list">
+            <a href="/article/${vo.url}.html" title="${vo.name}">
+                ${vo.name}
+            </a>
+        </div>
+        <% } %>
+    </div>
+</div>

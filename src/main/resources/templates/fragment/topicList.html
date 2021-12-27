@@ -1,0 +1,14 @@
+<div class="topic-panel">
+    <% for(vo in topicList!){%>
+    <div class="topic-panel-list">
+        <img src="${vo.topicPic}" class="img"/>
+        <div class="topic-panel-body">
+            <a href="/article/t/${vo.id}.html" class="topic-panel-title"><span>${vo.topicName}</span></a>
+            <div style="color:#a29e9e;padding-top:5px;font-size: 12px;">
+                <span>共${vo.articleCount}篇文章</span>
+                <span>最近更新：${vo.updateTime,dateFormat="yyyy-MM-dd"}</span>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</div>

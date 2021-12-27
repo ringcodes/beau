@@ -1,0 +1,21 @@
+.hot-panel {
+  background: #fff;
+}
+.hot-panel .hot-panel-title {
+  font-size: 16px;
+  padding: 8px 5px;
+  border-bottom: 1px solid #eee;
+}
+.hot-panel .hot-panel-body {
+  padding: 10px;
+}
+.hot-panel .hot-panel-body .hot-panel-list {
+  padding: 3px 0px;
+}
+.hot-panel .hot-panel-body .hot-panel-list > a {
+  color: #3e3c3c;
+}
+.hot-panel .hot-panel-body .hot-panel-list > a:hover {
+  text-decoration: underline;
+  color: #e53c24;
+}

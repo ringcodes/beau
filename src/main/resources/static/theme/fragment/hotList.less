@@ -1,0 +1,67 @@
+// hot-panel
+.hot-panel{
+  background: #fff;
+  .hot-panel-wrap{
+    position: relative;
+    padding: 6px 0px 0px 10px;
+    .hot-panel-title{
+      position: relative;
+      padding: 1px 0px 1px 15px;
+      div{
+        font-size: 16px;
+        font-weight: 500;
+        line-height:1;
+        &::before{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 4px;
+          height: 100%;
+          content: "";
+          background: var(--main-color);
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+  .hot-panel-body{
+    padding: 10px;
+    .hot-panel-list{
+      padding: 3px 0px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      .hot-panel-tag{
+        text-align: center;
+        border-radius: 5px;
+        width: 21px;
+        display: inline-block;
+        color: #333;
+        height: 21px;
+        line-height: 21px;
+        background: #eee;
+      }
+      .hot-panel-tag-1{
+        background: #ff0000;
+        color: #fff;
+      }
+      .hot-panel-tag-2{
+        background: #ff622e;
+        color: #fff;
+      }
+      .hot-panel-tag-3{
+        background: #f38f6f;
+        color: #fff;
+      }
+      .hot-panel-title{
+        color: #3e3c3c;
+        padding-left: 10px;
+        font-size: 14px;
+        &:hover{
+          color: var(--main-color);
+        }
+      }
+    }
+  }
+}
+// hot-panel

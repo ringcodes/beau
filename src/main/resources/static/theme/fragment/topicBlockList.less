@@ -1,0 +1,54 @@
+// topic-block-start
+.topic-panel-block{
+  background: #fff;
+  .topic-panel-block-wrap{
+    position: relative;
+    margin: 0 0 10px;
+    padding: 6px 0px 6px 10px;
+    .topic-panel-block-title{
+      position: relative;
+      padding: 1px 0px 1px 15px;
+      div{
+        font-size: 16px;
+        font-weight: 500;
+        line-height:1;
+        &::before{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 4px;
+          height: 100%;
+          content: "";
+          background: var(--main-color);
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+  .topic-panel-main{
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-between;
+    .topic-panel-list{
+      width: 48%;
+      margin-bottom: 20px;
+      >a {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        > img {
+          border-radius: 3px;
+          width: 30px;
+          height: 30px;
+        }
+        >span{
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+}
+// topic-block-end

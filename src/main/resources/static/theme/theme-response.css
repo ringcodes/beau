@@ -1,0 +1,20 @@
+@media (min-width: 968px) {
+  .container {
+    width: 1200px;
+    padding: 0 10px;
+  }
+  .main {
+    width: 72%;
+  }
+  aside {
+    width: 27%;
+  }
+}
+@media screen and (max-width: 968px) {
+  .main {
+    width: 100%;
+  }
+  aside {
+    width: 100%;
+  }
+}

@@ -1,0 +1,44 @@
+// mt-link
+.mt-link{
+  background: #fff;
+  .mt-link-wrap{
+    position: relative;
+    padding: 6px 0px 0px 10px;
+    .mt-link-title{
+      position: relative;
+      padding: 1px 0px 1px 15px;
+      div{
+        font-size: 16px;
+        font-weight: 500;
+        line-height:1;
+        &::before{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 4px;
+          height: 100%;
+          content: "";
+          background: var(--main-color);
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+  .mt-link-body{
+    padding: 10px;
+    .mt-link-list{
+      padding-bottom: 8px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      >a{
+        color: #3e3c3c;
+        padding-left: 10px;
+        &:hover{
+          color: var(--main-color);
+        }
+      }
+    }
+  }
+}
+// mt-link

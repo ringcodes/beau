@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.beau.repository.mapper.ArticleLabelMapper">
+    <resultMap id="ArticleLabelMapperMap" type="cn.beau.repository.model.ArticleLabelEntity">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="article_id" property="articleId" jdbcType="INTEGER"/>
+        <result column="label_id" property="labelId" jdbcType="INTEGER"/>
+        <result column="create_id" property="createId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_id" property="updateId" jdbcType="INTEGER"/>
+        <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO t_article_label(article_id,label_id,create_id,update_id)
+        VALUES
+        <foreach collection ="list" item="temp" index= "index" separator =",">
+            (#{temp.articleId}, #{temp.labelId},#{temp.createId},#{temp.updateId})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        article_id=VALUES(article_id),
+        label_id=VALUES(label_id),
+        update_id=VALUES(update_id)
+    </insert>
+
+    <delete id="delByArticleId" parameterType="java.lang.Long">
+        delete from t_article_label where article_id = #{articleId}
+    </delete>
+</mapper>
+

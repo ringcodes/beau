@@ -1,0 +1,17 @@
+<div class="topic-panel-block">
+    <div class="topic-panel-block-wrap">
+        <div class="topic-panel-block-title">
+            <div>热门专题</div>
+        </div>
+    </div>
+    <div class="topic-panel-main">
+        <% for(vo in topicList!){%>
+        <div class="topic-panel-list">
+            <a href="/article/t/${vo.id}.html" class="topic-panel-list-title">
+                <img src="${vo.topicPic}" class="img"/>
+                <span>${vo.topicName}</span>
+            </a>
+        </div>
+        <% } %>
+    </div>
+</div>

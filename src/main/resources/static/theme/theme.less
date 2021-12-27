@@ -1,0 +1,255 @@
+:root {
+  --main-color: #1abc9c; /* 主色调 */
+  --primay-color: #1abcb3; /* 浅主色调 */
+  --font-color: #333;  /* 字体主色 */
+  --font-color-desc: #62625d; /* 字体浅色 */
+  --font-color-gray: #999; /* 字体灰色 */
+}
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  height: 100%;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Helvetica Neue, Helvetica, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei UI, Microsoft YaHei, Source Han Sans CN, sans-serif;
+  line-height: 1.8;
+  background: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.img-h{
+  width: 100%;
+  height: 100%;
+  transition: -webkit-transform .5s ease-out 0s;
+  transition: transform .5s ease-out 0s;
+  transition: transform .5s ease-out 0s, -webkit-transform .5s ease-out 0s;
+}
+.img-h:hover{
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+  -o-transform: scale(1.05);
+}
+.a-link:hover{
+  color: var(--main-color) !important;
+}
+a{
+  text-decoration: none;
+  color: var(--font-color);
+}
+.mb-20{
+  margin-bottom: 20px;
+}
+//
+header{
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+  width: 100%;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 0 3px 1px rgb(0 0 0 / 10%);
+  .navbar-header{
+    float: left;
+    .logo{
+      height: 62px;
+      float: none;
+      display: table-cell;
+      padding: 0;
+      margin: 0;
+      font-size: 20px;
+      line-height: 1;
+      vertical-align: middle;
+      transition: all .3s ease-out 0s;
+      >a{
+        >img{
+          width: 120px;
+        }
+      }
+    }
+  }
+  .menu{
+    nav{
+      float: left;
+      margin: 0;
+      ul{
+        margin: 0;
+        >li{
+          float: left;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          >a{
+            padding: 0 14px;
+            color: #333;
+            line-height: 62px;
+            background: none;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            &.active{
+              color: var(--main-color);
+            }
+            &:hover{
+              color: var(--main-color);
+            }
+          }
+        }
+      }
+    }
+  }
+  .menu-search{
+    float: right;
+    line-height: 60px;
+    .input{
+      height: 28px;
+      line-height: 28px;
+      overflow: hidden;
+      vertical-align: middle;
+      display: inline-block;
+      border-radius: 6px;
+      border: 1px solid #979393;
+      >input{
+        border: none;
+        height: 100%;
+        padding: 0;
+        text-indent: 5px;
+        margin: 0;
+        font-size: 14px;
+        &:focus{
+          border: none;
+          outline: none;
+        }
+      }
+      >.search-icon{
+        cursor: pointer;
+        color: #979393;
+        padding-right: 5px;
+      }
+    }
+    >.login{
+      display: inline-block;
+      padding-left: 6px;
+      width: 60px;
+      text-align: center;
+      >a{
+        font-size: 14px;
+      }
+      >span{
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+// FOOTER
+.vc-footer {
+  background: #2E3338;
+  width: 100%;
+  color: #fff;
+  height: 140px;
+  .vc-footer-info {
+    padding: 10px;
+  }
+  .vc-footer-info {
+    a {
+      color: #fff;
+    }
+  }
+  .vc-footer-copyright {
+    padding-top: 30px;
+    text-align: center;
+    font-weight: 700;
+  }
+}
+.to-top{
+  width:50px;
+  height:62px;
+  position:fixed;
+  right:50px;
+  bottom:88px;
+  cursor: pointer;
+  display: none;
+  font-size: 48px;
+  color: var(--main-color);
+  &:hover{
+    color: #0db409;
+  }
+}
+
+.page-position{
+  padding-bottom: 15px;
+  padding-left: 15px;
+  span{
+    color: #7a7777;
+    font-size: 14px;
+  }
+  a{
+    color: #7a7777;
+    font-size: 14px;
+    &:hover{
+      color: var(--main-color);
+    }
+  }
+}
+
+.vc-page{
+  padding-top: 80px;
+}
+.fixed{
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  margin-left: 290px;
+}
+.container{
+  margin-right: auto;
+  margin-left: auto;
+}
+
+aside{
+  height: 100%;
+}
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.input-focus{
+  border-color: var(--main-color) !important;
+  >.search-icon{
+    color: var(--main-color) !important;
+  }
+  >.prefix-icon{
+    color: var(--main-color) !important;
+  }
+}
+.icon-loading{
+  transform-origin: 50% 50%;  // 中心旋转
+  animation: load 5s linear infinite;   // 2s无限循环
+}
+
+@keyframes load{
+  0%{
+    transform: rotate(0);
+  }
+  30%{
+    transform: rotate(80deg);
+  }
+  70%{
+    transform: rotate(280deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}

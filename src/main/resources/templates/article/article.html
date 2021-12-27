@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+  <title>${webTitle!}</title>
+  <meta name="keywords" content="${meta_keys!}">
+  <meta name="description" content="${meta_desc!}">
+  <% include("../layout/headercss.html"){} %>
+  <link rel="stylesheet" href="/static/theme/article-list.css">
+</head>
+<body>
+<% include("../layout/header.html"){} %>
+<div class="container vc-container vc-page">
+  <div class="header_content">
+    <div class="main">
+      <div class="article-list">
+        <div class="article-list-header">
+          <svg class="icon tag-icon" aria-hidden="true">
+            <use xlink:href="#icon-icon"></use>
+          </svg>
+          <span class="title">${topicName}</span>
+        </div>
+        <div class="article-list-main animated fadeIn" id="article-list">
+          <% include("../fragment/articleModule.html"){} %>
+        </div>
+      </div>
+      <% if(isNotEmpty(articleList) && articleList.~size>9) { %>
+      <div class="load-more mb-20">
+        <a href="javascript:;" id="loadMore">加载更多...</a>
+      </div>
+      <% } %>
+    </div>
+    <aside>
+      <div class="mb-20">
+        <% include("../fragment/hotList.html"){} %>
+      </div>
+      <div class="mb-20">
+        <% include("../fragment/topicBlockList.html"){} %>
+      </div>
+      <div class="mb-20">
+        <% include("../fragment/adModule.html"){} %>
+      </div>
+      <div class="mb-20">
+        <% include("../fragment/labelList.html"){} %>
+      </div>
+    </aside>
+  </div>
+</div>
+<% include("../layout/footer.html"){} %>
+<script>
+  $(function () {
+    var page = 1;
+    $("#loadMore").on("click", () => {
+      $.post("/article/loadMore.html", {
+        topicId: "${topicId}",
+        pageNumber: page
+      }, (data) => {
+        if (data){
+          $("#article-list").append(data);
+          page++
+        } else {
+          $(".load-more").html("<span>无更多数据了</span>");
+        }
+      });
+    })
+  })
+</script>
+</body>
+</html>

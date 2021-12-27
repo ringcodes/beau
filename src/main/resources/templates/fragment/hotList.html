@@ -1,0 +1,17 @@
+<div class="hot-panel">
+  <div class="hot-panel-wrap">
+    <div class="hot-panel-title">
+      <div>热门文章</div>
+    </div>
+  </div>
+  <div class="hot-panel-body">
+    <% for(vo in hotList){ %>
+    <div class="hot-panel-list">
+      <span class="hot-panel-tag hot-panel-tag-${voLP.index}">${voLP.index}</span>
+      <a href="/article/${vo.id}.html" title="${vo.title}">
+        <span class="hot-panel-title">${vo.title}</span>
+      </a>
+    </div>
+    <% } %>
+  </div>
+</div>

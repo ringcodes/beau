@@ -1,0 +1,14 @@
+<% if(isNotEmpty(labelList)){ %>
+<div class="label-panel">
+    <div class="label-panel-wrap">
+        <div class="label-panel-title">
+            <div>热门标签</div>
+        </div>
+    </div>
+    <div class="label-panel-body">
+        <% for(vo in labelList!){ var index=voLP.index % 9;%>
+        <a href="/article/tag/${vo.id}.html" target="_blank" title="${vo.name}" class="label-panel-list">${vo.name}</a>
+        <% } %>
+    </div>
+</div>
+<% } %>

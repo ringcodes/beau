@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <title>${webTitle!}</title>
+    <meta name="keywords" content="${meta_keys}">
+    <meta name="description" content="${meta_desc}">
+    <% include("../layout/headercss.html"){} %>
+    <link rel="stylesheet" href="/static/theme/detail.css">
+    <% if(article.articleType == 2 ){ %>
+    <script src="https://cdn.staticfile.org/mermaid/8.13.5/mermaid.min.js"></script>
+    <% } %>
+</head>
+<body>
+<% include("../layout/header.html"){} %>
+<div class=" container vc-container page-position vc-page">
+    <i class="fa fa-map-marker"></i>
+    <span>当前位置：</span>
+    <a href="/">首页</a>
+    <span>&gt;</span>
+    <a href="/article/t/${article.topicId}.html">${article.topicName}</a>
+    <span> > 正文</span>
+</div>
+<div class="container vc-container">
+    <div class="header_content">
+        <!--content-->
+        <div class="main animated fadeIn">
+            <div class="article">
+                <h2 class="single-title">
+                    ${article.title}
+                </h2>
+                <div class="article-info">
+                    <% if(article.sourceType == 1) { %>
+                    <div class="article-info-inline">
+                        <svg class="icon desc-icon" aria-hidden="true">
+                            <use xlink:href="#icon-user"></use>
+                        </svg>
+                        <span>${article.createName}</span>
+                    </div>
+                    <div class="article-info-inline">
+                        <svg class="icon desc-icon" aria-hidden="true">
+                            <use xlink:href="#icon-time"></use>
+                        </svg>
+                        <span>${article.updateTime,dateFormat="yyyy-MM-dd HH:mm"}</span>
+                    </div>
+                    <% } else { %>
+                    <div class="article-info-source">
+                        <div><span class="span">本文转载于${article.sourceName}</span></div>
+                        <div>
+                            <span class="span">来源：</span>
+                            <a href="${article.sourceUrl}" class="span-a" target="_blank">${article.sourceUrl}</a>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% if(isNotEmpty(article.articleLabelVos)){ %>
+                    <div class="article-info-inline">
+                        <% for(vo in article.articleLabelVos){ %>
+                        <a href="/article/tag/${vo.id}.html" class="article-tag article-tag-${voLP.index % 3}">${vo.name}</a>
+                        <% } %>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="article-content">
+                    ${article.contentMdView}
+                </div>
+            </div>
+        </div>
+        <!--right-->
+        <aside>
+            <div class="mb-20"><% include("../fragment/hotList.html"){} %></div>
+            <div class="mb-20"><% include("../fragment/topicBlockList.html"){} %></div>
+            <div class="mb-20"><% include("../fragment/adModule.html"){} %></div>
+            <div class=""><% include("../fragment/labelList.html"){} %></div>
+        </aside>
+    </div>
+</div>
+<% include("../layout/footer.html"){} %>
+<script>
+    $(function () {
+        if('${article.articleType}' === '2' ){
+            mermaid.initialize({
+                startOnLoad:true,
+                htmlLabels: 'code'
+            });
+        }
+    })
+    $(document).scroll(function() {
+        const obj = $('aside');//元素
+        const h = obj.height();//元素高度
+        const wh = $(window).height();//浏览器窗口高度
+        const xh = wh + $(document).scrollTop()-(h + obj.offset().top);//元素到浏览器底部的高度
+        console.log(xh)
+        if (xh > 0 && !obj.hasClass("fixed")){
+           // $('aside').addClass("fixed");
+        }
+        if (xh < 0 && obj.hasClass("fixed")){
+         //   $('aside').removeClass("fixed");
+        }
+    });
+</script>
+</body>
+</html>

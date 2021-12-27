@@ -1,0 +1,38 @@
+<header>
+  <div class="container clearfix header-body">
+    <div class="navbar-header">
+      <h1 class="logo">
+        <a href="/" rel="home">
+          <img src="https://static.gz640.cn/logo/beau-logo-3.png" alt="">
+        </a>
+      </h1>
+    </div>
+    <div class="menu">
+      <nav class="">
+        <ul class="nav navbar-nav wpcom-adv-menu" id="web-menu">
+          <li class="menu-item">
+            <a href="/" class="${curMenu!''=='/'?'active':''}">首页</a>
+          </li>
+          <% for(vo in menuList){ var url ="/article/t/"+vo.id+".html"; var cls = curMenu!'' == url?"active":"";%>
+          <li class="menu-item">
+            <a href="/article/t/${vo.id}.html" class="${cls}">${vo.topicName}</a>
+          </li>
+          <% } %>
+        </ul>
+      </nav>
+    </div>
+    <div class="menu-search">
+      <div class="input">
+        <input type="text" placeholder="全站搜索" id="search-key" />
+        <svg class="icon search-icon" aria-hidden="true">
+          <use xlink:href="#icon-search"></use>
+        </svg>
+      </div>
+      <div class="login" id="login-action">
+        <svg class="icon icon-loading" aria-hidden="true">
+          <use xlink:href="#icon-loading"></use>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>

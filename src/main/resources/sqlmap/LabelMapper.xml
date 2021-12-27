@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.beau.repository.mapper.LabelMapper">
+	<resultMap id="LabelMapperMap" type="cn.beau.repository.model.LabelEntity">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="create_id" property="createId" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_id" property="updateId" jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="SimpleLabelMapperMap" type="cn.beau.dto.response.ArticleLabelVo">
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="article_id" property="articleId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryByArticle" resultMap="SimpleLabelMapperMap">
+		select l.id,l.name,al.article_id from t_label l inner join t_article_label al on l.id = al.label_id
+		<where>
+			article_id in
+			<foreach close=")" collection="articleIdList" item="item" open="(" separator=", ">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+</mapper>

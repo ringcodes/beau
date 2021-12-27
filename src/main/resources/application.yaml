@@ -1,0 +1,24 @@
+server:
+  port: 7000
+spring:
+  application:
+    name: beau
+  jackson:
+    time-zone: CST
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 50000
+      maximum-pool-size: 10
+      auto-commit: true
+      connection-timeout: 30000
+      connection-test-query: select 1
+mybatis-plus:
+  mapper-locations: classpath*:sqlmap/*.xml
+  type-aliases-package: cn.beau.reposity.model
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+web:
+  title: 个人网

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+  <title>${webName}-${webTitle}</title>
+  <meta name="keywords" content="演示站"/>
+  <meta name="description" content="演示站 "/>
+  <meta name="applicable-device" content="pc,mobile"/>
+  <meta http-equiv="Cache-Control" content="no-transform"/>
+  <% include("layout/headercss.html"){} %>
+  <link rel="stylesheet" href="/static/theme/index.css">
+  <link rel="stylesheet" href="/static/theme/login.css">
+
+</head>
+<body class="home blog el-boxed">
+<% include("layout/header.html"){} %>
+<div class="">
+  <div class="header_content">
+    <div class="login-form">
+      <div class="login-action">
+        <div class="title">用户登录</div>
+        <div class="item">
+          <svg class="icon prefix-icon" aria-hidden="true">
+            <use xlink:href="#icon-dengluyemianyonghuming"></use>
+          </svg>
+          <input type="text" name="username" placeholder="请输入账号"/>
+        </div>
+        <div class="item">
+          <svg class="icon prefix-icon" aria-hidden="true">
+            <use xlink:href="#icon-dengluyemianmima"></use>
+          </svg>
+          <input type="password" name="password" placeholder="请输入密码"/>
+        </div>
+        <div class="btn" id="btn-login">登录</div>
+        <div class="login-footer">
+          <div class="login-footer-title">第三方登录</div>
+          <div class="login-third">
+          <% for(item in loginList){ %>
+          <div class="login-third-item">
+            <a href="${item.value}">
+              <svg class="icon login-icon" aria-hidden="true">
+                <use xlink:href="#icon-${item.name}"></use>
+              </svg>
+            </a>
+          </div>
+          <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include("layout/footer.html"){} %>
+<script>
+  $(function () {
+    $("input[name='username']").focus(function () {
+      $(this).parent().addClass("input-focus");
+    });
+    $("input[name='username']").blur(function () {
+      $(this).parent().removeClass("input-focus");
+    });
+    $("input[name='password']").focus(function () {
+      $(this).parent().addClass("input-focus");
+    });
+    $("input[name='password']").blur(function () {
+      $(this).parent().removeClass("input-focus");
+    });
+    $("#btn-login").click(function () {
+      if (!$("input[name='username']").val() || !$("input[name='password']").val()){
+        toastUtil.error("请输入账号或密码")
+        return
+      }
+      $.ajax({
+        url: "/auth/login",
+        type: "post",
+        contentType: "application/json",
+        data: JSON.stringify({
+          username: $("input[name='username']").val(),
+          password: $("input[name='password']").val()
+        }),
+        dataType: "json",
+        success: function(data) {
+            location.href="/"
+        },
+        error: function (resp){
+          const data = JSON.parse(resp.responseText);
+          console.log(data)
+          toastUtil.error(data.msg)
+        }
+      });
+    });
+  })
+</script>
+</body>
+</html>

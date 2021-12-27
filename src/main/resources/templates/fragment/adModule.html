@@ -1,0 +1,11 @@
+<% if(isNotEmpty(adList)){ %>
+<div class="ad-panel-module">
+    <% for(vo in adList){ %>
+    <div class="ad-panel-list">
+        <a href="${vo.target}" target="_blank">
+            <img src="${vo.pic}" alt="${vo.title}" />
+        </a>
+    </div>
+    <% } %>
+</div>
+<% } %>

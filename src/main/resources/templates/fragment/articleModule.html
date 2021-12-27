@@ -1,0 +1,25 @@
+<% for (vo in articleList){ %>
+<div class="article-module">
+  <div class="article-module-body">
+    <% if(isNotEmpty(vo.titlePic)){ %>
+    <div class="article-module-img">
+      <a href="/article/${vo.id}.html" title="${vo.title}" rel="bookmark">
+        <img class="lazy" data-src="${vo.titlePic}" alt="${vo.title}"/>
+      </a>
+    </div>
+    <% } %>
+    <div class="article-module-body-right">
+      <div class="article-module-header">
+        <a href="/article/${vo.id}.html" class="article-module-title" title="${vo.topicName}">
+          ${vo.title}
+        </a>
+        <div class="article-module-desc">${vo.description}</div>
+      </div>
+      <div  class="article-module-info">
+        <span>作者: ${vo.createName}</span>
+        <span>发布时间: ${vo.updateTime,dateFormat="yyyy-MM-dd HH:mm"}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>

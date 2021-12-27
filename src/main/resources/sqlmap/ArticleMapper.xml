@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.beau.repository.mapper.ArticleMapper">
+	<resultMap id="ArticleMapperMap" type="cn.beau.repository.model.ArticleEntity">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="create_id" property="createId" jdbcType="INTEGER" />
+		<result column="topic_id" property="topicId" jdbcType="INTEGER" />
+		<result column="publish_status" property="publishStatus" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_id" property="updateId" jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+		<result column="source_name" property="sourceName" jdbcType="VARCHAR" />
+		<result column="source_url" property="sourceUrl" jdbcType="VARCHAR" />
+		<result column="source_type" property="sourceType" jdbcType="INTEGER" />
+		<result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
+		<result column="points" property="points" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="ArticleSimpleMap" type="cn.beau.dto.ArticleListDto">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="topic_id" property="topicId" jdbcType="INTEGER" />
+		<result column="source_name" property="sourceName" jdbcType="VARCHAR" />
+		<result column="source_type" property="sourceType" jdbcType="INTEGER" />
+		<result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
+		<result column="publish_status" property="publishStatus" jdbcType="INTEGER" />
+		<result column="points" property="points" jdbcType="INTEGER" />
+		<result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+		<result column="createName" property="createName" jdbcType="VARCHAR"/>
+		<result column="create_id" property="createId" jdbcType="INTEGER" />
+		<result column="article_type" property="articleType" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap id="ArticleGroupMap" type="cn.beau.dto.ArticleGroupDto">
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="topic_name" property="topicName" />
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+	<resultMap id="ArticleDetailMap" type="cn.beau.dto.response.ArticleDetailVo">
+		<result column="id" property="id" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="create_id" property="createId" jdbcType="INTEGER" />
+		<result column="topic_id" property="topicId" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="source_type" property="sourceType" />
+		<result column="source_name" property="sourceName" jdbcType="VARCHAR" />
+		<result column="source_url" property="sourceUrl" jdbcType="VARCHAR" />
+		<result column="points" property="points" jdbcType="INTEGER" />
+		<result column="article_type" property="articleType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="BASE_COLUMN_LIST">
+		a.id,a.title,a.description,a.create_id,a.update_time,a.create_time,a.publish_status,a.topic_id,a.source_url,
+		a.source_type,a.title_pic,publish_time,source_name,a.points,a.article_type,a.seo_keys,a.seo_desc
+	</sql>
+
+	<select id="getArticleAndContent" parameterType="cn.beau.repository.model.ArticleEntity" resultMap="ArticleDetailMap">
+		select <include refid="BASE_COLUMN_LIST"/>,a.content,t.topic_name,u.name as createName
+		from t_article a
+		inner join t_topic t on a.topic_id=t.id
+		inner join t_user u on a.create_id=u.id
+		where a.deleted=0
+		<if test="id != null">
+			and a.id=#{id}
+		</if>
+		limit 1
+	</select>
+
+	<select id="queryArticleSimplePage" parameterType="cn.beau.dto.query.ArticleQuery" resultMap="ArticleSimpleMap">
+		select <include refid="BASE_COLUMN_LIST"/>,u.name as createName,t.topic_name
+		<include refid="selectPage"></include>
+		limit #{start},#{pageSize}
+	</select>
+
+	<select id="queryArticleSimpleCount" parameterType="cn.beau.repository.model.ArticleEntity" resultType="java.lang.Long">
+		select count(1) <include refid="selectPage"></include>
+	</select>
+	<sql id="selectPage">
+		from t_article a
+		inner join t_topic t on a.topic_id = t.id
+		inner join t_user u on a.create_id=u.id
+		<if test="labelId != null">
+			inner join t_article_label al on al.article_id=a.id
+		</if>
+		where a.deleted=0
+		<if test="topicType != null">
+			and t.topic_type = #{topicType}
+		</if>
+		<if test="labelId != null">
+			and al.label_id = #{labelId}
+		</if>
+		<if test="topicId != null">
+			and a.topic_id = #{topicId}
+		</if>
+		<if test="createId != null">
+			and a.create_id = #{createId}
+		</if>
+		<if test="articleFlagEnum != null">
+			and a.article_type = #{articleFlagEnum.code}
+		</if>
+		<if test="title != null and title != ''">
+			and a.title like #{title}
+		</if>
+		order by a.update_time desc
+	</sql>
+
+	<select id="queryArticleGroup" resultMap="ArticleGroupMap">
+		SELECT
+			a.id,topic_id,a.title,t.topic_name
+		FROM t_article a INNER JOIN t_topic t on a.topic_id=t.id
+		WHERE
+			#{groupCount} > (SELECT count(*) from t_article where topic_id=a.topic_id and update_time>a.update_time)
+		ORDER BY
+			a.id
+	</select>
+
+	<select id="queryByLabelCount" resultType="java.lang.Long">
+		SELECT count(1)
+		from t_article a
+		    inner join t_article_label al on a.id=al.article_id
+		    inner join t_topic t on a.topic_id = t.id
+			inner join t_user u on a.create_id=u.id
+		where a.deleted=0
+		limit 10;
+	</select>
+	<select id="queryByLabel" resultMap="ArticleSimpleMap">
+		SELECT a.id,a.title,a.topic_id,a.publish_time,a.title_pic,a.description,a.create_id,u.name as createName,t.topic_name
+		from t_article a
+		    inner join t_article_label al on a.id=al.article_id
+		    inner join t_topic t on a.topic_id = t.id
+			inner join t_user u on a.create_id=u.id
+		where a.deleted=0
+		<if test="labelId != null">
+			and al.label_id = #{labelId}
+		</if>
+		limit #{start},#{pageSize}
+	</select>
+</mapper>

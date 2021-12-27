@@ -1,0 +1,97 @@
+.login-form {
+  margin: auto;
+  width: 500px;
+  height: 400px;
+  padding-top: 120px;
+}
+.login-form .login-action {
+  width: 380px;
+  padding: 20px 60px 60px 60px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+.login-form .login-action .title {
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  padding: 10px 0px 35px 0px;
+}
+.login-form .login-action .item {
+  margin-bottom: 35px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  border: 1px solid #d3d2d2;
+  border-radius: 6px;
+}
+.login-form .login-action .item .prefix-icon {
+  display: inline-block;
+  font-size: 20px;
+  color: #d3d2d2;
+}
+.login-form .login-action .item input {
+  flex: 1;
+  border-radius: 6px;
+  display: inline-block;
+  line-height: 35px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  padding: 0;
+  font-size: 15px;
+  text-indent: 5px;
+}
+.login-form .login-action .item input:focus {
+  border: none;
+  outline: none;
+}
+.login-form .login-action .btn {
+  border-radius: 8px;
+  text-align: center;
+  padding: 0px 15px;
+  color: #fff;
+  line-height: 38px;
+  background: var(--main-color);
+  border: 1px solid var(--main-color);
+  cursor: pointer;
+}
+.login-form .login-action .btn:hover {
+  background: var(--primay-color);
+}
+.login-form .login-action .login-footer .login-footer-title {
+  position: relative;
+  text-align: center;
+  margin: 20px auto;
+  font-size: 14px;
+  color: var(--font-color-desc);
+}
+.login-form .login-action .login-footer .login-footer-title::before,
+.login-form .login-action .login-footer .login-footer-title::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-bottom: 1px solid var(--font-color-gray);
+  width: 40%;
+}
+.login-form .login-action .login-footer .login-footer-title::before {
+  left: 0;
+}
+.login-form .login-action .login-footer .login-footer-title::after {
+  right: 0;
+}
+.login-form .login-action .login-footer .login-third {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+.login-form .login-action .login-footer .login-third .login-third-item {
+  padding-right: 10px;
+  cursor: pointer;
+}
+.login-form .login-action .login-footer .login-third .login-third-item .login-icon {
+  font-size: 28px;
+  color: var(--font-color);
+}

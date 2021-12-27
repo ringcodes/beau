@@ -1,0 +1,29 @@
+<div class="latest-panel">
+    <div class="latest-panel-wrap">
+        <div class="latest-panel-head">
+            <div>最新</div>
+        </div>
+    </div>
+    <div class="latest-panel-body">
+        <% for(vo in relateList){ var cls = voLP.index%4==1?'line':'not-line';%>
+        <div class="latest-panel-item ${cls}">
+            <a href="/article/${vo.id}.html" title="${vo.title}">
+                <div class="latest-panel-list-img">
+                    <% if(isNotEmpty(vo.titlePic)) { %>
+                    <div class="img">
+                        <img class="lazy img-h" data-src="${vo.titlePic}" alt="${vo.title}"/>
+                    </div>
+                    <% } %>
+                    <div class="latest-panel-list-footer">
+                        <span class="a-link">${vo.title}</span>
+                        <div class="latest-panel-list-time">
+                            ${vo.updateTime,dateFormat="yyyy-MM-dd HH:mm"}
+                        </div>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+        <% } %>
+    </div>
+</div>

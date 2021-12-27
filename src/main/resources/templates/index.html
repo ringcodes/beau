@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+  <title>${webName}-${webTitle}</title>
+  <meta name="keywords" content="Java,Redis" />
+  <meta name="description" content="Java学习网站，集Jvm基础，微服务，redis等各领域相关的知识文章" />
+  <meta name="applicable-device" content="pc,mobile" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <link href="https://cdn.staticfile.org/Swiper/3.4.2/css/swiper.min.css" rel="stylesheet">
+  <% include("layout/headercss.html"){} %>
+  <link rel="stylesheet" href="/static/theme/index.css">
+</head>
+<body class="home blog el-boxed">
+<% include("layout/header.html"){} %>
+<div class="container vc-container vc-page">
+  <div class="con-header mb-20">
+      <div class="slider">
+        <div class="swiper-container mt-slider">
+          <div class="swiper-wrapper">
+            <% for(vo in sliderList){ %>
+            <div class="swiper-slide">
+              <a href="${vo.target}" target="_blank"><img src="${vo.pic}" class="img-responsive"alt="${vo.title}"></a>
+              <a href="${vo.target}" target="_blank" class="swiper-slide-cls"><span class="title">${vo.title}</span></a>
+            </div>
+            <% } %>
+          </div>
+          <div class="swiper-pagination"></div>
+          <div class="swiper-button-prev">
+            <svg class="icon slider-icon" aria-hidden="true">
+              <use xlink:href="#icon-ERP_xiangzuojiantou"></use>
+            </svg>
+          </div>
+          <div class="swiper-button-next">
+            <svg class="icon slider-icon" aria-hidden="true">
+              <use xlink:href="#icon-ERP_xiangyoujiantou"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="article-list">
+        <% for(vo in articleList){ var cls = voLP.index > 2?"list-mb":""; %>
+        <div class="article-list-item ${cls}">
+          <a href="${vo.target}" target="_blank" title="${vo.title}">
+            <img src="${vo.pic}" alt="" class="img-h"/>
+            <span>${vo.title}</span>
+          </a>
+        </div>
+        <% } %>
+      </div>
+  </div>
+  <div class="content">
+    <div class="main">
+      <div class="animated fadeIn">
+        <div class="topic-panel animated fadeIn">
+          <div class="topic-panel-body">
+            <ul>
+              <% for(vo in topicList!){%>
+              <li>
+                <a class="topic-wrap" href="/cyzx/" target="_blank">
+                  <div class="img-d">
+                    <img class="j-lazy img-h" src="${vo.topicPic}" data-original="${vo.topicPic}" style="display: inline;">
+                  </div>
+                  <span>${vo.topicName}</span>
+                </a>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-20 animated fadeIn">
+        <div class="col-md-12">
+          <div class="article-panel">
+            <div class="article-panel-head">
+              <ul>
+                <% for(item in articleGroup){ var cls = itemLP.index == 1?"active":"";%>
+                <li class="tab ${cls}"><a data-id="${item.topicId}" class="tab-click" href="javascript:;">${item.topicTitle}</a></li>
+                <% } %>
+              </ul>
+            </div>
+            <div class="article-panel-body">
+              <% for(item in articleGroup){ var cls = itemLP.index == 1?"active":"";%>
+              <div class="group-panel ${cls}" id="group-panel-module-${item.topicId}">
+                <div class="ann-fade-in">
+                  <div class="group-panel-body">
+                    <% include("fragment/articleModule.html",{articleList: item.data}){} %>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <aside class="right">
+      <div class="mb-20">
+        <% include("fragment/latestList.html"){} %>
+      </div>
+      <div class="mb-20">
+        <% include("fragment/labelList.html"){} %>
+      </div>
+      <div>
+        <% include("fragment/linkList.html"){} %>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<% include("layout/footer.html"){} %>
+
+<script src="https://cdn.staticfile.org/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+
+<script>
+  $(function () {
+    $(".tab-click").on('click',function (e) {
+      const pre = $('li.tab.active>a')[0].dataset.id;
+      console.log(e);
+      $('li.tab.active').removeClass('active');
+      $(this).parent().addClass('active');
+      $("#group-panel-module-"+pre).hide();
+      $("#group-panel-module-"+e.target.dataset.id).show();
+    });
+    new Swiper ('.swiper-container', {
+      autoplay: 3000,//可选选项，自动滑动
+      loop: true,
+      // 如果需要分页器
+      paginationClickable: true,
+      pagination: '.swiper-pagination',
+      // 如果需要前进后退按钮
+      nextButton: '.swiper-button-next',
+      prevButton: '.swiper-button-prev',
+    })
+  })
+</script>
+</body>
+</html>
