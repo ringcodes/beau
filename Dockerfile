@@ -6,5 +6,5 @@ COPY ./target/beau_web.jar beau_web.jar
 ENV AVA_OPTS="-server -Xms512m -Xmx512m" \
   ENV="dev"
 
-#ENTRYPOINT java ${JAVA_OPTS} -jar -Dspring.profiles.active=${ENV} beau_web.jar
+ENTRYPOINT java ${JAVA_OPTS} -jar -Dspring.profiles.active=${ENV} beau_web.jar
 EXPOSE 7000
