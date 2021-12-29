@@ -16,8 +16,26 @@
         <div class="article-module-desc">${vo.description}</div>
       </div>
       <div  class="article-module-info">
-        <span>作者: ${vo.createName}</span>
-        <span>发布时间: ${vo.updateTime,dateFormat="yyyy-MM-dd HH:mm"}</span>
+        <% if(vo.sourceType == 1) { %>
+        <span class="tag-source">原创</span>
+        <span>
+          <svg class="icon tag-icon" aria-hidden="true">
+            <use xlink:href="#icon-user"></use>
+          </svg>
+          ${vo.createName}</span>
+        <% } else { %>
+        <span class="tag-source">转载</span>
+        <svg class="icon tag-icon" aria-hidden="true">
+          <use xlink:href="#icon-user"></use>
+        </svg>
+        <span>${vo.sourceName}</span>
+        <% } %>
+        <span>
+          <svg class="icon tag-icon" aria-hidden="true">
+            <use xlink:href="#icon-time"></use>
+          </svg>
+          ${vo.updateTime,dateFormat="yyyy-MM-dd HH:mm"}
+        </span>
       </div>
     </div>
   </div>
