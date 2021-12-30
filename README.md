@@ -1,6 +1,6 @@
 ## 简介
-Beau是一款基于java开发的轻量级的个人博客、建站、企业文章平台
-> 目前所有功能均为个人开发,欢迎各位共同交流,同时如若本项目对您有所帮助,请为它点个star
+Beau是一款基于java开发的轻量级博客、个人建站平台
+> 目前Doing的所有功能均为个人开发,欢迎各位共同交流,同时如若本项目对您有所帮助,请为它点个star
 * 演示站点: [https://www.gz640.cn](https://www.gz640.cn)
 
 ## 使用技术
@@ -60,17 +60,8 @@ Beau是一款基于java开发的轻量级的个人博客、建站、企业文章
    ```
 
 
-4. 管理后台UI(推荐Docker安装)  
-   ``` 
-   docker pull lsl200817-docker.pkg.coding.net/beau/common/alpine-jre8:1.0  
-   ```
-   ```
-   docker run -d -e ENV=prod lsl:latest
-   ```
-   或者源码安装  
-   git clone  
-   yarn  
-   yarn start
+4. 管理后台UI  
+   参考 [文档](https://gitee.com/ringcode/beau-ui)
 ## 主题定义
   基于文件src/main/resources/static/theme/theme.css  
 ```css
@@ -82,5 +73,5 @@ Beau是一款基于java开发的轻量级的个人博客、建站、企业文章
    --font-color-gray: #999;/* 字体灰色 */
 }
 ```
-## 学习交流群  
+学习交流群  
 ![](https://gitee.com/lsl52640/files/raw/master/contact_me_qr.png)
