@@ -21,7 +21,20 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
 * 支持首页静态化，首屏秒开
 
 ## 系统截图
+主页  
 ![](https://gitee.com/lsl52640/files/raw/master/%E7%BD%91%E7%AB%99%E4%B8%BB%E9%A1%B5.jpg)
+
+管理后台主页  
+![](https://gitee.com/lsl52640/files/raw/master/%E5%B7%A5%E4%BD%9C%E5%8F%B0.jpg)
+
+文章管理  
+![](https://gitee.com/lsl52640/files/raw/master/%E6%96%87%E7%AB%A0%E7%AE%A1%E7%90%86.jpg)
+
+文章富文本编辑  
+![](https://gitee.com/lsl52640/files/raw/master/%E6%96%87%E7%AB%A0%E7%BC%96%E8%BE%91-HTML.jpg)
+
+文章Markddown编辑  
+![](https://gitee.com/lsl52640/files/raw/master/%E6%96%87%E7%AB%A0%E7%BC%96%E8%BE%91-markdown.jpg)
 ## 安装教程
 1. 执行数据库脚本ddl.sql
 2. 源码Docker安装(推荐)  
