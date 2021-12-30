@@ -88,5 +88,10 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
    --font-color-gray: #999;/* 字体灰色 */
 }
 ```
+
+## 系统目录
+![](https://gitee.com/lsl52640/files/raw/master/%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95.jpg)
+
+
 学习交流群  
 ![](https://gitee.com/lsl52640/files/raw/master/contact_me_qr.png)
