@@ -18,6 +18,7 @@
 package cn.beau.controller;
 
 import cn.beau.base.KeyValueVo;
+import cn.beau.component.WebConfigComponent;
 import cn.beau.component.oauth.IOauthLogin;
 import cn.beau.component.oauth.OauthFactory;
 import cn.beau.component.oauth.OauthTypeEnum;
@@ -37,6 +38,8 @@ import java.util.Locale;
 public class UserController extends CommonController {
     @Autowired
     private OauthFactory oauthFactory;
+    @Autowired
+    private WebConfigComponent webConfigComponent;
 
     @GetMapping("/login.html")
     public String login(ModelMap modelMap, String backUrl, HttpServletRequest request) {
@@ -44,11 +47,7 @@ public class UserController extends CommonController {
         modelMap.put("backUrl", backUrl);
         List<KeyValueVo> list = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        sb.append(request.getScheme()).append("://");
-        sb.append(request.getServerName());
-        if (request.getServerPort() != 80) {
-            sb.append(":").append(request.getServerPort());
-        }
+        sb.append(webConfigComponent.getWebSiteConfig().getHost());
         sb.append("/auth/");
         for (OauthTypeEnum oauthTypeEnum : OauthTypeEnum.values()) {
             IOauthLogin login = oauthFactory.get(oauthTypeEnum);

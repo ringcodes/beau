@@ -6,4 +6,5 @@ import lombok.Data;
 public class WebSiteConfigDto {
     private String webName;
     private String logoPic;
+    private String host;
 }
