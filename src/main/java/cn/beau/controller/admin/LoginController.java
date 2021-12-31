@@ -21,6 +21,7 @@ import cn.beau.base.LoginUser;
 import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
 import cn.beau.component.TemplateComponent;
+import cn.beau.component.WebConfigComponent;
 import cn.beau.component.oauth.IOauthLogin;
 import cn.beau.component.oauth.OauthFactory;
 import cn.beau.component.oauth.OauthTypeEnum;
@@ -58,6 +59,8 @@ public class LoginController {
     private OauthFactory oauthFactory;
     @Autowired
     private TemplateComponent templateComponent;
+    @Autowired
+    private WebConfigComponent webConfigComponent;
 
     @PostMapping("/login")
     public ResultObject login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
@@ -111,9 +114,11 @@ public class LoginController {
     private void setCookie(LoginUser loginUser, HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = new Cookie("token", JwtUtil.sign(loginUser));
         cookie.setHttpOnly(true);
-        String host = request.getServerName();
-        Integer index = host.indexOf(".");
-        cookie.setDomain(host.substring(index + 1));
+        String host = webConfigComponent.getWebSiteConfig().getHost();
+        if (StringUtils.hasText(host)){
+            Integer index = host.indexOf(".");
+            cookie.setDomain(host.substring(index + 1));
+        }
         cookie.setPath("/");
         cookie.setMaxAge(30 * 24 * 60 * 60);
         response.addCookie(cookie);
