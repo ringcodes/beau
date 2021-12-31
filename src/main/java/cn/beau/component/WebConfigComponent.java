@@ -17,7 +17,12 @@
 
 package cn.beau.component;
 
+import cn.beau.dto.config.WebSiteConfigDto;
+import cn.beau.enums.ConfigKeyEnum;
+import cn.beau.enums.ConfigTypeEnum;
+import cn.beau.exception.BizException;
 import cn.beau.manager.ConfigManager;
+import cn.beau.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,4 +36,13 @@ import org.springframework.stereotype.Component;
 public class WebConfigComponent {
     @Autowired
     private ConfigManager configManager;
+
+    public WebSiteConfigDto getWebSiteConfig() {
+        try {
+            String content = configManager.getConfigContent(ConfigTypeEnum.WEB_CONFIG, ConfigKeyEnum.WEB);
+            return JsonUtil.string2Obj(content, WebSiteConfigDto.class);
+        } catch (Exception e) {
+            throw new BizException("网站配置错误");
+        }
+    }
 }

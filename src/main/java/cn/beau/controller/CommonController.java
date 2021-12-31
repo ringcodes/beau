@@ -17,7 +17,9 @@
 
 package cn.beau.controller;
 
+import cn.beau.component.WebConfigComponent;
 import cn.beau.dto.ArticleListDto;
+import cn.beau.dto.config.WebSiteConfigDto;
 import cn.beau.dto.query.ArticleQuery;
 import cn.beau.dto.response.LabelListVo;
 import cn.beau.enums.SliderTypeEnum;
@@ -28,10 +30,9 @@ import cn.beau.manager.ConfigManager;
 import cn.beau.manager.LabelManager;
 import cn.beau.manager.SliderManager;
 import cn.beau.manager.TopicManager;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -53,14 +54,25 @@ public class CommonController {
     protected LabelManager labelManager;
     @Autowired
     protected SliderManager sliderManager;
-    @Value("${web.title:'个人网'}")
-    private String webTitle;
+    @Autowired
+    private WebConfigComponent webConfigComponent;
 
     protected void setTitle(ModelMap modelMap, String title) {
-        modelMap.put("webTitle", title);
-        modelMap.put("webName", webTitle);
         // 菜单
         modelMap.put("menuList", topicManager.listTopicPos(TopicPositionEnum.MENU, Boolean.FALSE));
+        // 配置
+        WebSiteConfigDto webSiteConfigDto = webConfigComponent.getWebSiteConfig();
+        if (webSiteConfigDto != null) {
+            modelMap.put("webName", webSiteConfigDto.getWebName());
+            modelMap.put("logoPic", webSiteConfigDto.getLogoPic());
+            if (StringUtils.hasText(webSiteConfigDto.getWebName())) {
+                modelMap.put("webTitle", webSiteConfigDto.getWebName() + "-" + title);
+            } else {
+                modelMap.put("webTitle", title);
+            }
+        } else {
+            modelMap.put("webName", "个人网");
+        }
     }
 
     protected void getLastArticle(ModelMap modelMap, TopicTypeEnum topicTypeEnum, Long topicId) {
@@ -98,7 +110,7 @@ public class CommonController {
 
     protected int getPage(HttpServletRequest request) {
         String page = request.getParameter("p");
-        if (StringUtils.isNotBlank(page)) {
+        if (StringUtils.hasText(page)) {
             return Integer.valueOf(page);
         }
         return 1;

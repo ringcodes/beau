@@ -68,4 +68,9 @@ public class ConfigEntity extends BaseEntity {
     @TableField(value = "config_md5")
     private String configMd5;
 
+    /**
+     * 配置状态
+     */
+    @TableField(value = "config_status")
+    private Integer configStatus;
 }

@@ -37,7 +37,7 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
 ![](https://gitee.com/lsl52640/files/raw/master/%E6%96%87%E7%AB%A0%E7%BC%96%E8%BE%91-markdown.jpg)
 ## 安装教程
 1. 执行数据库脚本ddl.sql
-2. 源码Docker安装(推荐)  
+2. 源码Docker安装(需要jdk8、maven编译环境)  
    ```
    git clone https://gitee.com/ringcode/beau.git  
    ```
@@ -59,6 +59,7 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
    
    ``` 
    cd beau   
+   mvn clean package  
    docker build -t beau:lastest . 
    ```
    
@@ -66,14 +67,29 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
    docker run -d -e ENV=prod beau:lastest
    ```
 
-3. 使用安装包  
-   下载安装包并解压  
-   修改配置文件application-prod.yaml  
+3. 使用安装包(推荐docker安装）  
+   下载安装包并解压,安装包[下载地址](https://gitee.com/ringcode/beau/releases)  
+   修改解压包中的配置文件 application-online.yaml
+   ```yaml
+   spring:
+     datasource:
+       url: jdbc:mysql://localhost:3306/beau-pro?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=CST&allowPublicKeyRetrieval=true
+       username: root
+       password: root
+   oss:
+     tencent: #腾讯OSS文件存储,腾讯OSS配置查询见 https://www.gz640.cn
+       enable: true #是否启用
+       bucket: #BUCKET
+       secret-key: # Secret Key
+       access-key: #Access Key
+       region-name: #Region Name
+   ``` 
    执行启动命令  
    ```
-   java -jar -Dspring.profiles.active=prod beau_web.jar
+   docker build -t beau:lastest . 
+   docker run -d -p7000:7000 -e ENV=online beau:lastest
    ```
-
+   可访问 http://localhost:7000 查看
 
 4. 管理后台UI  
    参考 [文档](https://gitee.com/ringcode/beau-ui)

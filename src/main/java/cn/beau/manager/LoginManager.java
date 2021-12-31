@@ -17,11 +17,7 @@
 
 package cn.beau.manager;
 
-import cn.beau.base.KeyValueVo;
 import cn.beau.base.LoginUser;
-import cn.beau.component.oauth.IOauthLogin;
-import cn.beau.component.oauth.OauthFactory;
-import cn.beau.component.oauth.OauthTypeEnum;
 import cn.beau.component.oauth.OauthUser;
 import cn.beau.exception.BizException;
 import cn.beau.exception.ParamException;
@@ -36,9 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -59,8 +52,6 @@ public class LoginManager {
 
     @Autowired
     private UserManager userManager;
-    @Autowired
-    private OauthFactory oauthFactory;
 
     public LoginUser login(String name, String password) {
         Assert.notNull(name, "用户名必填");

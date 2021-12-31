@@ -37,7 +37,7 @@ public enum ConfigKeyEnum implements IConfigTypeEnum {
     OAUTH_GITHUB(ConfigTypeEnum.LOGIN, "github登录"),
     OAUTH_GITEE(ConfigTypeEnum.LOGIN, "gitee登录"),
     THEME(ConfigTypeEnum.WEB_CONFIG, "主题"),
-    WEB_NAME(ConfigTypeEnum.WEB_CONFIG, "网站名"),
+    WEB(ConfigTypeEnum.WEB_CONFIG, "网站"),
     OSS(ConfigTypeEnum.WEB_CONFIG, "文件存储");
 
     private String desc;

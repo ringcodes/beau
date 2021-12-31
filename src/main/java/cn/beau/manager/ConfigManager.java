@@ -56,9 +56,9 @@ public class ConfigManager {
     private ConfigMapper configMapper;
 
     private Cache<String, String> cache = Caffeine.newBuilder()
-            .expireAfterAccess(12, TimeUnit.HOURS)
-            .maximumSize(10_000)
-            .build();
+        .expireAfterAccess(12, TimeUnit.HOURS)
+        .maximumSize(10_000)
+        .build();
 
     public ConfigEntity getConfigById(Long id) {
         return configMapper.selectById(id);
@@ -112,6 +112,7 @@ public class ConfigManager {
             configMapper.insert(config);
         } else {
             config.setId(exist.get(0).getId());
+            config.setConfigStatus(StatusEnum.ENABLE.getCode());
             configMapper.updateById(config);
         }
         cache.invalidate(config.getConfigType() + "_" + config.getConfigKey());
