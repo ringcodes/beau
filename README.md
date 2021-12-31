@@ -84,7 +84,7 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
        access-key: #Access Key
        region-name: #Region Name
    ``` 
-   执行启动命令  
+   执行docker命令  
    ```
    docker build -t beau:lastest . 
    docker run -d -p7000:7000 -e ENV=online beau:lastest
