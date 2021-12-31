@@ -68,7 +68,7 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
    ```
 
 3. 使用安装包(推荐docker安装）  
-   下载安装包并解压,安装包[下载地址](https://gitee.com/ringcode/beau/releases)  
+   下载安装包(以-install.zip结尾的文件)并解压,安装包[下载地址](https://gitee.com/ringcode/beau/releases)  
    修改解压包中的配置文件 application-online.yaml
    ```yaml
    spring:
