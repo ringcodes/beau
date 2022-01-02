@@ -25,15 +25,16 @@ import cn.beau.dto.FileInfoDto;
 import cn.beau.enums.UploadSourceEnum;
 import cn.beau.manager.UploadFileManger;
 import cn.beau.repository.model.UploadFileEntity;
+import cn.beau.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * 文件
@@ -49,15 +50,24 @@ public class FileController {
     @Autowired
     private UploadFileManger uploadFileManger;
 
+
     @PostMapping("/upload")
     public ResultObject upload(LoginUser loginUser, @RequestParam("file") MultipartFile file, @RequestParam String source, @RequestParam String code) throws IOException {
+        UploadSourceEnum uploadSourceEnum = UploadSourceEnum.valueOf(source);
+        Integer index = file.getOriginalFilename().lastIndexOf(".");
+        String filename = file.getOriginalFilename();
+        if (index != -1 && index != 0) {
+            LocalDateTime now = LocalDateTime.now();
+            filename = filename.substring(0, index) + "-" + DateUtil.timeFormatFull(now) + filename.substring(index);
+        }
+        // 上传
+        FileInfoDto info = ossService.upload(file.getBytes(), file.getSize(), filename);
+        //入库
         UploadFileEntity uploadFile = new UploadFileEntity();
+        uploadFile.setSource(uploadSourceEnum.getType());
+        uploadFile.setFilePath(info.getFileName());
         uploadFile.setFileName(file.getOriginalFilename());
         uploadFile.setFileSize(file.getSize());
-        UploadSourceEnum uploadSourceEnum = UploadSourceEnum.valueOf(source);
-        uploadFile.setSource(uploadSourceEnum.getType());
-        uploadFile.setFilePath(uploadSourceEnum.getPath() + "/" + file.getOriginalFilename());
-        FileInfoDto info = ossService.upload(file.getBytes(), file.getSize(), uploadFile.getFilePath());
         uploadFile.setMd5(info.getMd5());
         uploadFile.setUpdateId(loginUser.getId());
         Long id = uploadFileManger.save(uploadFile);

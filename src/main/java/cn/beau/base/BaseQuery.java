@@ -17,6 +17,7 @@
 
 package cn.beau.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -32,10 +33,16 @@ public class BaseQuery {
     private String sortColumn;
     private String sortDesc;
 
+    @JsonIgnore
     public int getStart() {
         if (pageNumber == 0) {
             pageNumber = 1;
         }
         return (pageNumber - 1) * pageSize;
+    }
+
+    @JsonIgnore
+    public String getLimit() {
+        return "limit " + getStart() + "," + getPageSize();
     }
 }

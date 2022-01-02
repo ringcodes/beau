@@ -17,6 +17,7 @@
 
 package cn.beau.dto.response;
 
+import cn.beau.base.KeyValueVo;
 import lombok.Data;
 
 import java.util.Date;
@@ -33,9 +34,7 @@ public class SliderResp {
     private String pic;
     private String picView;
     private String target;
-    private Integer position;
-    private String positionName;
+    private KeyValueVo sliderType;
     private Integer sliderStatus;
-
     private Date updateTime;
 }

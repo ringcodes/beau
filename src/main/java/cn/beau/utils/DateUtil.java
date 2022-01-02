@@ -21,6 +21,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
 /**
@@ -38,6 +39,9 @@ public class DateUtil {
     public static final int PREVIOUS = -1;
 
     public static final int QUARTER = 3;
+
+    private static final DateTimeFormatter FORMAT_FULL = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
 
     /**
      * 获取某天的开始日期
@@ -112,4 +116,7 @@ public class DateUtil {
         return LocalDateTime.now().plusYears(offset).with(TemporalAdjusters.firstDayOfYear());
     }
 
+    public static String timeFormatFull(LocalDateTime time) {
+        return FORMAT_FULL.format(time);
+    }
 }

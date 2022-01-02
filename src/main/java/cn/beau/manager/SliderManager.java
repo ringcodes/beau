@@ -18,6 +18,7 @@
 package cn.beau.manager;
 
 import cn.beau.base.BasePage;
+import cn.beau.base.KeyValueVo;
 import cn.beau.component.oss.OssService;
 import cn.beau.dto.query.SliderQuery;
 import cn.beau.dto.response.SliderResp;
@@ -73,6 +74,7 @@ public class SliderManager {
         Integer count = sliderMapper.selectCount(queryWrapper);
         page.setTotalRow(count);
         if (count > 0) {
+            queryWrapper.last(slider.getLimit());
             List<SliderEntity> list = sliderMapper.selectList(queryWrapper);
             if (!CollectionUtils.isEmpty(list)) {
                 List<SliderResp> result = new ArrayList<>(list.size());
@@ -88,8 +90,8 @@ public class SliderManager {
         sliderResp.setId(it.getId());
         sliderResp.setTitle(it.getTitle());
         sliderResp.setPic(ossService.getViewUrl(it.getPic()));
-        sliderResp.setPosition(it.getSliderType());
-        sliderResp.setPositionName(SliderTypeEnum.ofCode(it.getSliderType()).getDesc());
+        SliderTypeEnum sliderTypeEnum = SliderTypeEnum.ofCode(it.getSliderType());
+        sliderResp.setSliderType(new KeyValueVo(sliderTypeEnum.name(),sliderTypeEnum.getDesc(),sliderTypeEnum.getTips()));
         sliderResp.setTarget(it.getTarget());
         sliderResp.setSliderStatus(it.getStatus());
         sliderResp.setUpdateTime(it.getUpdateTime());
