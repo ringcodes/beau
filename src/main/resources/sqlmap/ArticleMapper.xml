@@ -108,6 +108,9 @@
 		<if test="createId != null">
 			and a.create_id = #{createId}
 		</if>
+		<if test="publishStatus != null">
+			and a.publish_status = #{publishStatus}
+		</if>
 		<if test="articleFlagEnum != null">
 			and a.article_type = #{articleFlagEnum.code}
 		</if>
