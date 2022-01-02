@@ -27,6 +27,7 @@ import cn.beau.dto.response.ArticleDetailVo;
 import cn.beau.dto.response.ArticleLabelVo;
 import cn.beau.dto.response.ArticleSimplePage;
 import cn.beau.enums.ArticleContentEnum;
+import cn.beau.enums.StatusEnum;
 import cn.beau.exception.BizException;
 import cn.beau.repository.mapper.ArticleMapper;
 import cn.beau.repository.model.ArticleEntity;
@@ -186,8 +187,9 @@ public class ArticleManager {
         return articleMapper.updateById(article) > 0;
     }
 
-    public List<ArticleListDto> queryRelateList(ArticleQuery candidate, boolean pic) {
-        List<ArticleListDto> list = articleMapper.queryArticleSimplePage(candidate);
+    public List<ArticleListDto> queryRelateList(ArticleQuery query, boolean pic) {
+        query.setPublishStatus(StatusEnum.ENABLE.getCode());
+        List<ArticleListDto> list = articleMapper.queryArticleSimplePage(query);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(it -> {
                 if (pic) {
