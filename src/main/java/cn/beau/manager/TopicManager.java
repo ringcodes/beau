@@ -79,7 +79,7 @@ public class TopicManager {
             queryBuilder.eq("topic_type", candidate.getTopicType().getType());
         }
         if (candidate.getTopicPositionEnum() != null) {
-            queryBuilder.eq("topic_position", candidate.getTopicPositionEnum().getType());
+            queryBuilder.eq("topic_position", candidate.getTopicPositionEnum().getCode());
         }
         queryBuilder.eq("topic_name", candidate.getTopicName());
         queryBuilder.eq("deleted", 0);
@@ -98,7 +98,7 @@ public class TopicManager {
                 topicRo.setUpdateTime(t.getUpdateTime());
                 topicRo.setTopicPic(t.getTopicPic());
                 TopicPositionEnum topicPositionEnum = TopicPositionEnum.ofCode(t.getTopicPosition());
-                topicRo.setTopicPosition(new KeyValueVo(topicPositionEnum.name(), topicPositionEnum.getDesc(), topicPositionEnum.getType()));
+                topicRo.setTopicPosition(new KeyValueVo(topicPositionEnum.name(), topicPositionEnum.getDesc(), topicPositionEnum.getCode()));
                 if (StringUtils.isNotBlank(t.getTopicPic())) {
                     topicRo.setTopicPicView(formatUrl(t.getTopicPic()));
                 }
@@ -141,7 +141,7 @@ public class TopicManager {
     public List<TopicVo> list(TopicQuery topicQuery, Boolean pic) {
         QueryWrapper queryWrapper = new QueryWrapper();
         if (topicQuery.getTopicPositionEnum() != null) {
-            queryWrapper.eq("topic_position", topicQuery.getTopicPositionEnum().getType());
+            queryWrapper.eq("topic_position", topicQuery.getTopicPositionEnum().getCode());
         }
         if (topicQuery.getTopicType() != null) {
             queryWrapper.eq("topic_type", topicQuery.getTopicType().getType());

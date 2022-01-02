@@ -26,6 +26,7 @@ import cn.beau.dto.response.ArticleSimplePage;
 import cn.beau.dto.response.TopicVo;
 import cn.beau.enums.ArticleFlagEnum;
 import cn.beau.enums.SliderTypeEnum;
+import cn.beau.enums.TopicPositionEnum;
 import cn.beau.enums.TopicTypeEnum;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,7 @@ public class IndexController extends CommonController {
         List<JSONObject> result = new ArrayList<>();
         TopicQuery topicQuery = new TopicQuery();
         topicQuery.setTopicType(TopicTypeEnum.ARTICLE);
+        topicQuery.setTopicPositionEnum(TopicPositionEnum.LIST);
         List<TopicVo> topicVos = topicManager.list(topicQuery, false);
         if (!CollectionUtils.isEmpty(topicVos)) {
             topicVos.forEach(it -> {

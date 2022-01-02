@@ -19,6 +19,7 @@ package cn.beau.dto.query;
 
 import cn.beau.base.BaseQuery;
 import cn.beau.enums.ArticleFlagEnum;
+import cn.beau.enums.TopicPositionEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;

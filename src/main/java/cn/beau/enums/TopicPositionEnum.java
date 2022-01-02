@@ -35,19 +35,19 @@ public enum TopicPositionEnum {
     MENU(1, "全局菜单", "无需标题图片"),
     INDEX(2, "首页专题列表", "请上传190x120比例的图片"),
     LIST(3, "普通列表", "请上传35x35比例的图片");
-    private int type;
+    private int code;
     private String desc;
     private String tips;
 
-    TopicPositionEnum(int type, String desc, String tips) {
-        this.type = type;
+    TopicPositionEnum(int code, String desc, String tips) {
+        this.code = code;
         this.desc = desc;
         this.tips = tips;
     }
 
     public static TopicPositionEnum ofCode(int code) {
         for (TopicPositionEnum item : values()) {
-            if (item.getType() == code) {
+            if (item.getCode() == code) {
                 return item;
             }
         }

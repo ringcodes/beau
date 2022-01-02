@@ -67,7 +67,7 @@ public class TopicController {
         topic.setTopicPic(request.getTopicPic());
         topic.setTopicName(request.getTopicName());
         if (request.getTopicPosition() != null) {
-            topic.setTopicPosition(request.getTopicPosition().getType());
+            topic.setTopicPosition(request.getTopicPosition().getCode());
         }
         topic.setUpdateId(loginUser.getId());
         topic.setCreateId(loginUser.getId());
