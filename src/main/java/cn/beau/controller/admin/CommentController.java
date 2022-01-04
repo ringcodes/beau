@@ -27,6 +27,7 @@ import cn.beau.manager.CommentManager;
 import cn.beau.repository.model.CommentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,11 +53,16 @@ public class CommentController {
     }
 
     @PostMapping("/save")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(role = RoleEnum.USER)
     public ResultObject save(LoginUser loginUser, @RequestBody CommentEntity comment) {
         comment.setCreateId(loginUser.getId());
         comment.setUpdateId(loginUser.getId());
         return ResultUtil.newSucc(commentManager.saveAndUpdate(comment));
+    }
+
+    @GetMapping("/list/{articleId}")
+    public ResultObject list(@PathVariable Long articleId) {
+        return ResultUtil.newSucc(commentManager.queryByArticleId(articleId));
     }
 
     @DeleteMapping("/del/{id}")

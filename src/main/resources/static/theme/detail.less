@@ -94,3 +94,72 @@ pre{
     color: #fff;
   }
 }
+
+.article-comment{
+  border-top: 1px solid #eee;
+  padding: 10px;
+  background: #fff;
+  .form-control{
+    width: 100%;
+    border: 1px solid #979393;
+    border-radius: 6px;
+    text-indent: 6px;
+    font-size: 15px;
+    &:focus{
+      border: none;
+      outline: none;
+      border: 1px solid var(--main-color);
+    }
+  }
+  .action-box{
+    display: flex;
+    padding: 15px 0px;
+    .btn-save{
+      margin-left: auto;
+    }
+    .btn-save-disabled{
+      margin-left: auto;
+      background: var(--font-color-gray);
+      border: 1px solid var(--font-color-gray);
+      cursor: auto;
+    }
+  }
+  #article-comment-main{
+    .article-comment-item{
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+      margin-bottom: 15px;
+      .article-comment-head{
+        padding: 5px 10px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        .header-warp{
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-content: center;
+          align-items: center;
+          .avatar{
+            width: 24px;
+            height: 24px;
+            padding-right: 10px;
+          }
+          .author{
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+        .time{
+          color: #938f8f;
+        }
+      }
+      .article-comment-body{
+        font-size: 14px;
+        color: #524e4e;
+        padding: 5px 10px;
+      }
+    }
+  }
+}

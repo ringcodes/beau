@@ -19,13 +19,17 @@ package cn.beau.manager;
 
 import cn.beau.base.BasePage;
 import cn.beau.dto.query.CommentQuery;
+import cn.beau.dto.response.CommentDto;
 import cn.beau.repository.mapper.CommentMapper;
 import cn.beau.repository.model.CommentEntity;
 import cn.beau.utils.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 评论管理
@@ -68,5 +72,13 @@ public class CommentManager {
         comment.setId(id);
         comment.setUpdateId(updateId);
         return commentMapper.updateById(comment) > 0;
+    }
+
+    public List<CommentDto> queryByArticleId(Long articleId) {
+        List<CommentDto> list = commentMapper.queryByArticleId(articleId);
+        if (CollectionUtils.isEmpty(list)) {
+            return Collections.emptyList();
+        }
+        return list;
     }
 }

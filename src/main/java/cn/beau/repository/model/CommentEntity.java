@@ -56,6 +56,6 @@ public class CommentEntity extends BaseEntity {
     /**
      * 引用评论ID
      */
-    @TableField(value = "quote_comment_id")
-    private Long quoteCommentId;
+    @TableField(value = "parent_id")
+    private Long parentId;
 }

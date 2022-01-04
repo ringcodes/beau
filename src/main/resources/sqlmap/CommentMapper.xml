@@ -5,7 +5,7 @@
     <resultMap id="CommentMapperMap" type="cn.beau.repository.model.CommentEntity">
         <result column="id" property="id" jdbcType="INTEGER"/>
         <result column="article_id" property="articleId" jdbcType="INTEGER"/>
-        <result column="quote_comment_id" property="quoteCommentId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="create_id" property="createId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
@@ -13,4 +13,20 @@
         <result column="deleted" property="deleted" jdbcType="INTEGER"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <resultMap id="ArticleCommentMapperMap" type="cn.beau.dto.response.CommentDto">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="name" property="userName" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryByArticleId" resultMap="ArticleCommentMapperMap" >
+        select c.id,c.parent_id,c.content,c.create_time,u.name,u.avatar
+        from t_comment c inner join t_user u on c.create_id=u.id
+        where c.deleted=0
+        and c.article_id = #{articleId}
+    </select>
 </mapper>

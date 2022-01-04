@@ -18,15 +18,16 @@
 package cn.beau.repository.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import cn.beau.dto.response.CommentDto;
 import cn.beau.repository.model.CommentEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface CommentMapper extends BaseMapper<CommentEntity> {
-    long countCommentPage(CommentEntity comment);
 
-    List<CommentEntity> queryCommentPage(CommentEntity comment);
+    List<CommentDto> queryByArticleId(@Param("articleId") Long articleId);
 }

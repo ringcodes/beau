@@ -27,7 +27,7 @@
 <div class="container vc-container">
     <div class="header_content">
         <!--content-->
-        <div class="main animated fadeIn">
+        <div class="main animated fadeIn mb-20">
             <div class="article">
                 <h2 class="single-title">
                     ${article.title}
@@ -67,6 +67,20 @@
                     ${article.contentMdView}
                 </div>
             </div>
+            <div class="article-comment">
+                <%if(login){ %>
+                <textarea class="form-control" id="comment" rows="6" ></textarea>
+                <div class="action-box">
+                    <button type="button" class="btn btn-primary btn-save" id="save-comment">发表评论</button>
+                </div>
+                <% } else { %>
+                <textarea class="form-control"  rows="6" disabled placeholder="请登录后发表评论"></textarea>
+                <div class="action-box">
+                    <button type="button" class="btn btn-primary btn-save-disabled">发表评论</button>
+                </div>
+                <% } %>
+                <div id="article-comment-main"></div>
+            </div>
         </div>
         <!--right-->
         <aside>
@@ -79,6 +93,7 @@
 </div>
 <% include("../layout/footer.html"){} %>
 <script>
+    const comment = {};
     $(function () {
         if('${article.articleType}' === '2' ){
             mermaid.initialize({
@@ -86,20 +101,56 @@
                 htmlLabels: 'code'
             });
         }
+        $("#save-comment").on("click",function () {
+            comment.save();
+        });
+        comment.loadData();
     })
-    $(document).scroll(function() {
-        const obj = $('aside');//元素
-        const h = obj.height();//元素高度
-        const wh = $(window).height();//浏览器窗口高度
-        const xh = wh + $(document).scrollTop()-(h + obj.offset().top);//元素到浏览器底部的高度
-        console.log(xh)
-        if (xh > 0 && !obj.hasClass("fixed")){
-           // $('aside').addClass("fixed");
-        }
-        if (xh < 0 && obj.hasClass("fixed")){
-         //   $('aside').removeClass("fixed");
-        }
-    });
+    comment.save = function () {
+        $.ajax({
+            url: '/comment/save',
+            type: 'post',
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({
+                'articleId': '${article.id}',
+                "content": $("#comment").val()
+            }),
+            success:function (res) {
+                if (res.ok) {
+                    comment.loadData();
+                }
+            }
+        })
+    };
+    comment.loadData = function () {
+        $.ajax({
+            url: '/comment/list/${article.id}',
+            type: 'get',
+            dataType: 'json',
+            success:function (res) {
+                if (res.ok) {
+                    var data = res.data;
+                    var html = '';
+                    for (var i in data) {
+                        html +='<div class="article-comment-item"><div class="article-comment-head"><div class="header-warp">';
+                        if (data[i].avatar) {
+                            html += '<img class="avatar" src=" '+data[i].avatar+' " />';
+                        }
+                        if (data[i].userName) {
+                            html += '<div class="author">'+data[i].userName+'</div>';
+                        } else {
+                            html += '<div class="author">匿名</div>';
+                        }
+                        html += '</div><div class="time">'+data[i].createTime+'</div></div>';
+                        html += '<div class="article-comment-body">'+data[i].content+'</div></div>';
+                    }
+                    $("#article-comment-main").html(html);
+                }
+            }
+
+        })
+    }
 </script>
 </body>
 </html>

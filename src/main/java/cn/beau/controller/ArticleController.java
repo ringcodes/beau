@@ -17,6 +17,7 @@
 
 package cn.beau.controller;
 
+import cn.beau.base.LoginUser;
 import cn.beau.component.TemplateComponent;
 import cn.beau.dto.ArticleListDto;
 import cn.beau.dto.query.ArticleQuery;
@@ -66,7 +67,7 @@ public class ArticleController extends CommonController {
     }
 
     @GetMapping("/{idStr}.html")
-    public String detail(@PathVariable String idStr, ModelMap modelMap) {
+    public String detail(LoginUser loginUser, @PathVariable String idStr, ModelMap modelMap) {
         ArticleDetailVo article = articleManager.getArticleAndContent(Long.valueOf(idStr));
         modelMap.put("article", article);
         setTitle(modelMap, article.getTitle());
@@ -80,6 +81,7 @@ public class ArticleController extends CommonController {
         getSliderTui(modelMap);
         // 热门
         getHotArticle(modelMap);
+        modelMap.put("login", loginUser != null);
         return "article/detail";
     }
 
