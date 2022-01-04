@@ -25,6 +25,7 @@ import cn.beau.component.oauth.OauthTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -46,15 +47,15 @@ public class UserController extends CommonController {
         setTitle(modelMap, "会员登录");
         modelMap.put("backUrl", backUrl);
         List<KeyValueVo> list = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        sb.append(webConfigComponent.getWebSiteConfig().getHost());
-        sb.append("/auth/");
         for (OauthTypeEnum oauthTypeEnum : OauthTypeEnum.values()) {
             IOauthLogin login = oauthFactory.get(oauthTypeEnum);
             KeyValueVo keyValueVo = new KeyValueVo();
             keyValueVo.setName(oauthTypeEnum.name().toLowerCase(Locale.ROOT));
-            keyValueVo.setValue(login.loginUrl(sb + oauthTypeEnum.name().toLowerCase(Locale.ROOT), "?back=" + backUrl));
-            list.add(keyValueVo);
+            String url = login.loginUrl(backUrl);
+            if (StringUtils.hasText(url)) {
+                keyValueVo.setValue(url);
+                list.add(keyValueVo);
+            }
         }
         modelMap.put("loginList", list);
         return "login";

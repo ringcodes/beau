@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2021/12/15
  */
 public interface IOauthLogin {
-    String loginUrl(String redirectUri, String backUrl);
+    String loginUrl(String backUrl);
 
     LoginUser login(HttpServletRequest request);
 

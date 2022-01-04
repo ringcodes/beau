@@ -25,6 +25,7 @@ import cn.beau.utils.SimpleHttpRequest;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLEncoder;
@@ -38,10 +39,10 @@ public class GiteeOauthLoginImpl extends AbstractOauthLogin {
     private static final String USER_INFO = "https://gitee.com/api/v5/user?access_token=%s";
 
     @Override
-    public String loginUrl(String redirectUri, String backUrl) {
+    public String loginUrl(String backUrl) {
         try {
             ConfigDto configDto = getConfig();
-            return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(redirectUri, "UTF-8"));
+            return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(getLoginCallback(), "UTF-8"));
         } catch (Exception e) {
             return null;
         }
@@ -50,13 +51,6 @@ public class GiteeOauthLoginImpl extends AbstractOauthLogin {
     @Override
     public LoginUser login(HttpServletRequest request) {
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(request.getScheme()).append("://");
-            sb.append(request.getServerName());
-            if (request.getServerPort() != 80) {
-                sb.append(":").append(request.getServerPort());
-            }
-            sb.append("/auth/GIT_EE");
             ConfigDto configDto = getConfig();
             JSONObject body = new JSONObject();
             String code = request.getParameter("code");
@@ -66,10 +60,11 @@ public class GiteeOauthLoginImpl extends AbstractOauthLogin {
             body.put("grant_type", "authorization_code");
             body.put("code", code);
             body.put("client_id", configDto.getAppKey());
-            body.put("redirect_uri", sb.toString());
+            body.put("redirect_uri", getLoginCallback());
             String data = SimpleHttpRequest.post("https://gitee.com/oauth/token", body.toJSONString(), head);
             JSONObject jsonObject = JSONObject.parseObject(data);
             String token = jsonObject.getString("access_token");
+            Assert.hasText(token, "获取TOKEN失败");
             String user = SimpleHttpRequest.get(String.format(USER_INFO, token), head);
             JSONObject userInfo = JSONObject.parseObject(user);
             OauthUser oauthUser = new OauthUser();

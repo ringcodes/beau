@@ -32,6 +32,12 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * github登录
+ *
+ * @author liushilin
+ * @date 2022/1/4
+ */
 @Component
 @Slf4j
 public class GithubOauthLoginImpl extends AbstractOauthLogin {
@@ -40,10 +46,10 @@ public class GithubOauthLoginImpl extends AbstractOauthLogin {
     private static final String LOGIN_URL = "https://github.com/login/oauth/authorize?client_id=%s&state=STATE&redirect_uri=%s";
 
     @Override
-    public String loginUrl(String redirectUri, String backUrl) {
+    public String loginUrl(String backUrl) {
         try {
             ConfigDto configDto = getConfig();
-            return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(redirectUri, "UTF-8"));
+            return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(getLoginCallback(), "UTF-8"));
         } catch (Exception e) {
             return null;
         }
@@ -52,24 +58,16 @@ public class GithubOauthLoginImpl extends AbstractOauthLogin {
     @Override
     public LoginUser login(HttpServletRequest request) {
         try {
-            StringBuilder sb = new StringBuilder();
-            sb.append(request.getScheme()).append("://");
-            sb.append(request.getServerName());
-            if (request.getServerPort() != 80) {
-                sb.append(":").append(request.getServerPort());
-            }
-            sb.append("/auth/github");
             ConfigDto configDto = getConfig();
             String code = request.getParameter("code");
-            String data = SimpleHttpRequest.get(String.format(TOKEN_URL, configDto.getAppKey(), configDto.getAppSecret(), code, sb));
+            String data = SimpleHttpRequest.get(String.format(TOKEN_URL, configDto.getAppKey(), configDto.getAppSecret(), code, getLoginCallback()));
             Assert.hasText(data, "登录失败");
-            System.err.println(data);
             String[] dataSplit = data.split("&");
             String token = dataSplit[0].split("=")[1];
             Map<String, String> head = new HashMap<>();
             head.put("Authorization", "token " + token);
             String user = SimpleHttpRequest.get(USER_INFO_URL, head);
-            System.err.println(user);
+            Assert.hasText(user, "登录失败");
             JSONObject userInfo = JSONObject.parseObject(user);
             OauthUser oauthUser = new OauthUser();
             oauthUser.setOpenId(userInfo.getString("id"));

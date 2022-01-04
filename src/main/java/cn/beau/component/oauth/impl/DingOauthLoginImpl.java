@@ -46,10 +46,10 @@ public class DingOauthLoginImpl extends AbstractOauthLogin {
     private static final String LOGIN_URL = "https://oapi.dingtalk.com/connect/qrconnect?appid=%s&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=%s";
 
     @Override
-    public String loginUrl(String redirectUri, String backUrl) {
+    public String loginUrl(String backUrl) {
         try {
             ConfigDto configDto = getConfig();
-            return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(redirectUri + backUrl, "UTF-8"));
+            return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(getLoginCallback() + "?back=" + backUrl, "UTF-8"));
         } catch (Exception e) {
             return null;
         }

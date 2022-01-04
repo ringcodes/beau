@@ -18,10 +18,12 @@
 package cn.beau.component.oauth.impl;
 
 import cn.beau.base.LoginUser;
+import cn.beau.component.WebConfigComponent;
 import cn.beau.component.oauth.ConfigDto;
 import cn.beau.component.oauth.IOauthLogin;
 import cn.beau.component.oauth.OauthUser;
 import cn.beau.enums.ConfigTypeEnum;
+import cn.beau.exception.BizException;
 import cn.beau.exception.ParamException;
 import cn.beau.manager.ConfigManager;
 import cn.beau.manager.LoginManager;
@@ -31,6 +33,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractOauthLogin implements IOauthLogin {
@@ -42,6 +45,8 @@ public abstract class AbstractOauthLogin implements IOauthLogin {
     private LoginManager loginManager;
     @Autowired
     private ConfigManager configManager;
+    @Autowired
+    private WebConfigComponent webConfigComponent;
 
     protected String getCache(String key) {
         return cache.getIfPresent(key);
@@ -61,5 +66,19 @@ public abstract class AbstractOauthLogin implements IOauthLogin {
             return JSONObject.parseObject(content, ConfigDto.class);
         }
         throw new ParamException("配置不存在");
+    }
+
+    protected String getLoginCallback() {
+        try {
+            if (webConfigComponent.getWebSiteConfig() == null || StringUtils.isEmpty(webConfigComponent.getWebSiteConfig().getHost())) {
+                throw new BizException("网站第三方登录配置错误");
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append(webConfigComponent.getWebSiteConfig().getHost());
+            sb.append("/auth/").append(oauthType().name().toLowerCase(Locale.ROOT));
+            return sb.toString();
+        } catch (Exception e) {
+            throw new BizException("网站配置错误");
+        }
     }
 }

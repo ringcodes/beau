@@ -72,6 +72,7 @@ public class CommonController {
             }
         } else {
             modelMap.put("webName", "个人网");
+            modelMap.put("webTitle", title);
         }
     }
 
