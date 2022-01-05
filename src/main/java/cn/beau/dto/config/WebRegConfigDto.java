@@ -20,18 +20,14 @@ package cn.beau.dto.config;
 import lombok.Data;
 
 /**
- * 网站配置
+ * 注册配置
  *
  * @author liushilin
  * @date 2022/1/5
  */
 @Data
-public class WebSiteConfigDto {
-    private String webName;
-    private String logoPic;
-    private String host;
-    private String email;
-    private String emailName;
-    private String emailHost;
-    private String emailPass;
+public class WebRegConfigDto {
+    private String subject;
+    private String content;
+    private Integer canReg;
 }

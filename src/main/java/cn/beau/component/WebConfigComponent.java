@@ -17,6 +17,7 @@
 
 package cn.beau.component;
 
+import cn.beau.dto.config.WebRegConfigDto;
 import cn.beau.dto.config.WebSiteConfigDto;
 import cn.beau.enums.ConfigKeyEnum;
 import cn.beau.enums.ConfigTypeEnum;
@@ -41,6 +42,16 @@ public class WebConfigComponent {
         try {
             String content = configManager.getConfigContent(ConfigTypeEnum.WEB_CONFIG, ConfigKeyEnum.WEB);
             return JsonUtil.string2Obj(content, WebSiteConfigDto.class);
+        } catch (Exception e) {
+            throw new BizException("网站配置错误");
+        }
+    }
+
+    public WebRegConfigDto getWebRegConfig() {
+        try {
+            String content = configManager.getConfigContent(ConfigTypeEnum.WEB_CONFIG, ConfigKeyEnum.REG);
+
+            return JsonUtil.string2Obj(content, WebRegConfigDto.class);
         } catch (Exception e) {
             throw new BizException("网站配置错误");
         }

@@ -15,23 +15,22 @@
  * limitations under the License.
  */
 
-package cn.beau.dto.config;
+package cn.beau.dto;
 
 import lombok.Data;
 
 /**
- * 网站配置
+ * 邮件
  *
  * @author liushilin
  * @date 2022/1/5
  */
 @Data
-public class WebSiteConfigDto {
-    private String webName;
-    private String logoPic;
-    private String host;
-    private String email;
-    private String emailName;
-    private String emailHost;
-    private String emailPass;
+public class MailInfo {
+    //发送地址
+    private String toAddress;
+    //发送主题
+    private String subject;
+    //发送内容
+    private String content;
 }

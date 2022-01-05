@@ -63,6 +63,8 @@ public class LoginManager {
                 throw new BizException("登录次数过多，请稍候再试", Level.INFO);
             }
             cache.put(key, String.valueOf(Integer.valueOf(val) + 1));
+        } else {
+            cache.put(key, String.valueOf(1));
         }
         UserEntity user = new UserEntity();
         int index = name.indexOf("@");
@@ -73,7 +75,6 @@ public class LoginManager {
         }
         UserEntity query = userManager.getUser(user);
         if (query == null) {
-            cache.put(key, String.valueOf(1));
             throw new ParamException("用户名或密码错误");
         }
         if (StringUtils.isEmpty(query.getPassword())) {

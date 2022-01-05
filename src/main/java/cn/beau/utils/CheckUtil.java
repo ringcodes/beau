@@ -15,23 +15,26 @@
  * limitations under the License.
  */
 
-package cn.beau.dto.config;
+package cn.beau.utils;
 
-import lombok.Data;
+import java.util.regex.Pattern;
 
 /**
- * 网站配置
+ * 校验工具
  *
  * @author liushilin
  * @date 2022/1/5
  */
-@Data
-public class WebSiteConfigDto {
-    private String webName;
-    private String logoPic;
-    private String host;
-    private String email;
-    private String emailName;
-    private String emailHost;
-    private String emailPass;
+public class CheckUtil {
+    private static final Pattern EMAIL_REGEX = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+    /**
+     * 邮箱格式校验
+     *
+     * @param email
+     * @return
+     */
+    public static boolean checkEmail(String email) {
+        return EMAIL_REGEX.matcher(email).matches();
+    }
 }

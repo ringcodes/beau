@@ -22,6 +22,8 @@ import cn.beau.component.WebConfigComponent;
 import cn.beau.component.oauth.IOauthLogin;
 import cn.beau.component.oauth.OauthFactory;
 import cn.beau.component.oauth.OauthTypeEnum;
+import cn.beau.dto.config.WebRegConfigDto;
+import cn.beau.enums.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -59,5 +61,15 @@ public class UserController extends CommonController {
         }
         modelMap.put("loginList", list);
         return "login";
+    }
+
+    @GetMapping("/reg.html")
+    public String reg(ModelMap modelMap) {
+        setTitle(modelMap, "会员注册");
+        WebRegConfigDto webRegConfig = webConfigComponent.getWebRegConfig();
+        if (webRegConfig != null) {
+            modelMap.put("canReg", StatusEnum.ENABLE.equals(webRegConfig.getCanReg()));
+        }
+        return "reg";
     }
 }

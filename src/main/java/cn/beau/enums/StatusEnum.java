@@ -32,7 +32,7 @@ import java.util.List;
 @Getter
 public enum StatusEnum {
     ENABLE(1, "生效"),
-    UNABLE(2, "失效");
+    UNABLE(0, "失效");
 
     private Integer code;
     private String desc;

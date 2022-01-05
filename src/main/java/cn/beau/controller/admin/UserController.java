@@ -21,17 +21,22 @@ import cn.beau.anno.AuthTag;
 import cn.beau.base.LoginUser;
 import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
+import cn.beau.component.EmailComponent;
+import cn.beau.component.WebConfigComponent;
+import cn.beau.dto.MailInfo;
+import cn.beau.dto.config.WebRegConfigDto;
 import cn.beau.dto.query.UserQuery;
 import cn.beau.dto.request.ModifyPasswordRequest;
+import cn.beau.dto.request.UserRegRequest;
 import cn.beau.enums.RoleEnum;
 import cn.beau.manager.UserManager;
 import cn.beau.repository.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -45,37 +50,59 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private EmailComponent emailComponent;
+    @Autowired
+    private WebConfigComponent webConfigComponent;
+
     // rest 接口
     @PostMapping("/page")
-    @ResponseBody
     @AuthTag(role = RoleEnum.PRE_ADMIN)
-    public ResultObject page(@RequestBody UserQuery query){
+    public ResultObject page(@RequestBody UserQuery query) {
         return ResultUtil.newSucc(userManager.queryUserPage(query));
     }
 
     @PostMapping("/{id}/forbid")
     @AuthTag(role = RoleEnum.ADMIN)
-    public ResultObject forbid(LoginUser loginUser, @PathVariable Long id){
-        return ResultUtil.newSucc(userManager.forbid(id,loginUser.getId()));
+    public ResultObject forbid(LoginUser loginUser, @PathVariable Long id) {
+        return ResultUtil.newSucc(userManager.forbid(id, loginUser.getId()));
     }
 
     @PostMapping("/save")
     @AuthTag(role = RoleEnum.ADMIN)
-    public ResultObject save(LoginUser loginUser, @RequestBody UserEntity userEntity){
+    public ResultObject save(LoginUser loginUser, @RequestBody UserEntity userEntity) {
         userEntity.setUpdateId(loginUser.getId());
         return ResultUtil.newSucc(userManager.update(userEntity));
     }
 
     @PostMapping("/add")
     @AuthTag(role = RoleEnum.ADMIN)
-    public ResultObject add(LoginUser loginUser, @RequestBody UserEntity userEntity){
+    public ResultObject add(LoginUser loginUser, @RequestBody UserEntity userEntity) {
         userEntity.setUpdateId(loginUser.getId());
         return ResultUtil.newSucc(userManager.insert(userEntity));
     }
 
     @PostMapping("/modifyPassword")
     @AuthTag(role = RoleEnum.USER)
-    public ResultObject modifyPassword(LoginUser loginUser, @RequestBody ModifyPasswordRequest resq){
-        return ResultUtil.newSucc(userManager.modifyPassword(resq,loginUser.getId()));
+    public ResultObject modifyPassword(LoginUser loginUser, @RequestBody ModifyPasswordRequest resq) {
+        return ResultUtil.newSucc(userManager.modifyPassword(resq, loginUser.getId()));
+    }
+
+    @PostMapping("/reg")
+    public ResultObject reg(@RequestBody UserRegRequest request) {
+        Boolean reg = userManager.reg(request);
+        if (reg) {
+            WebRegConfigDto webRegConfigDto = webConfigComponent.getWebRegConfig();
+            MailInfo mailInfo = new MailInfo();
+            mailInfo.setContent(webRegConfigDto.getContent());
+            if (StringUtils.hasText(webRegConfigDto.getSubject())) {
+                mailInfo.setSubject(webRegConfigDto.getSubject());
+            } else {
+                mailInfo.setSubject("新用户注册");
+            }
+            mailInfo.setToAddress(request.getEmail());
+            emailComponent.sendHtmlMail(mailInfo);
+        }
+        return ResultUtil.newSucc(reg);
     }
 }

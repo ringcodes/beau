@@ -21,11 +21,13 @@ import cn.beau.base.BasePage;
 import cn.beau.base.LoginUser;
 import cn.beau.dto.query.UserQuery;
 import cn.beau.dto.request.ModifyPasswordRequest;
+import cn.beau.dto.request.UserRegRequest;
 import cn.beau.dto.response.UserResp;
 import cn.beau.enums.UserStatusEnum;
 import cn.beau.exception.ParamException;
 import cn.beau.repository.mapper.UserMapper;
 import cn.beau.repository.model.UserEntity;
+import cn.beau.utils.CheckUtil;
 import cn.beau.utils.PasswordUtil;
 import cn.beau.utils.QueryBuilder;
 import com.alibaba.fastjson.JSONObject;
@@ -34,11 +36,14 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -185,6 +190,37 @@ public class UserManager {
         userEntity.setUpdateId(updateId);
         userEntity.setStatus(UserStatusEnum.FORBID.getCode());
         return userMapper.updateById(userEntity) > 0;
+    }
+
+    public Boolean reg(UserRegRequest request) {
+        Assert.hasText(request.getUsername(), "用户名不能为空");
+        Assert.hasText(request.getEmail(), "邮箱不能为空");
+        Assert.hasText(request.getPassword(), "密码不能为空");
+        Assert.hasText(request.getPasswordAgain(), "确认密码不能为空");
+        if (!request.getPassword().equals(request.getPasswordAgain())) {
+            throw new ParamException("两次输入的密码不一样");
+        }
+        if (!CheckUtil.checkEmail(request.getEmail())){
+            throw new ParamException("邮箱格式不正确");
+        }
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("email", request.getEmail());
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.last("limit 1");
+        List<UserEntity> list = userMapper.selectList(queryWrapper);
+        if (!CollectionUtils.isEmpty(list)) {
+            throw new ParamException("输入的邮箱已注册");
+        }
+        UserEntity userEntity = new UserEntity();
+        userEntity.setName(request.getUsername());
+        userEntity.setEmail(request.getEmail());
+        userEntity.setSource("注册");
+        userEntity.setStatus(1);
+        String salt = PasswordUtil.getSalt();
+        String passNew = PasswordUtil.getPassword(userEntity.getPassword(), salt);
+        userEntity.setPassword(passNew);
+        userEntity.setSalt(salt);
+        return userMapper.insert(userEntity) > 0;
     }
 
 }
