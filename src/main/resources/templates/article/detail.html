@@ -9,7 +9,7 @@
     <meta name="keywords" content="${meta_keys!}">
     <meta name="description" content="${meta_desc!}">
     <% include("../layout/headercss.html"){} %>
-    <link rel="stylesheet" href="/static/theme/detail.css">
+    <link rel="stylesheet" href="${version('/static/theme/detail.css')}">
     <% if(article.articleType == 2 ){ %>
     <script src="https://cdn.staticfile.org/mermaid/8.13.5/mermaid.min.js"></script>
     <% } %>

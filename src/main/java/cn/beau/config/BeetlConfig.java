@@ -17,6 +17,7 @@
 
 package cn.beau.config;
 
+import org.beetl.core.Function;
 import org.beetl.core.resource.ClasspathResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
@@ -25,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * beetle 配置
@@ -44,6 +48,9 @@ public class BeetlConfig {
         if (loader == null) {
             loader = BeetlConfig.class.getClassLoader();
         }
+        Map<String, Function> vals = new HashMap<>();
+        vals.put("version", new VersionFunction());
+        beetlGroupUtilConfiguration.setFunctions(vals);
         ClasspathResourceLoader cploder = new ClasspathResourceLoader(loader, "templates/");
         beetlGroupUtilConfiguration.setResourceLoader(cploder);
         beetlGroupUtilConfiguration.init();
@@ -54,7 +61,7 @@ public class BeetlConfig {
 
     @Bean(name = "beetlViewResolver")
     public BeetlSpringViewResolver getBeetlSpringViewResolver(
-        @Qualifier("customBeetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
+            @Qualifier("customBeetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
         BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
         beetlSpringViewResolver.setSuffix(".html");
         beetlSpringViewResolver.setContentType("text/html;charset=UTF-8");
