@@ -20,7 +20,7 @@
   <div class="header_content">
     <div class="reg-form">
       <div class="reg-action">
-        <% if(canReg) { %>
+        <% if(isNotEmpty(canReg) && canReg) { %>
         <div class="title">用户注册</div>
         <div class="item">
           <label>用户名</label>
