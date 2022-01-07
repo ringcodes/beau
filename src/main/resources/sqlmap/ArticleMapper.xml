@@ -20,6 +20,7 @@
 		<result column="source_type" property="sourceType" jdbcType="INTEGER" />
 		<result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
 		<result column="points" property="points" jdbcType="INTEGER" />
+		<result column="flag_type" property="flagType" jdbcType="INTEGER" />
 	</resultMap>
 
 	<resultMap id="ArticleSimpleMap" type="cn.beau.dto.ArticleListDto">
@@ -97,7 +98,7 @@
 		</if>
 		where a.deleted=0
 		<if test="topicType != null">
-			and t.topic_type = #{topicType}
+			and t.topic_type = #{topicType.code}
 		</if>
 		<if test="labelId != null">
 			and al.label_id = #{labelId}
@@ -108,8 +109,11 @@
 		<if test="createId != null">
 			and a.create_id = #{createId}
 		</if>
+		<if test="flagType != null">
+			and a.flag_type = #{flagType.code}
+		</if>
 		<if test="publishStatus != null">
-			and a.publish_status = #{publishStatus}
+			and a.publish_status = #{publishStatus.code}
 		</if>
 		<if test="articleFlagEnum != null">
 			and a.article_type = #{articleFlagEnum.code}
@@ -148,6 +152,9 @@
 		where a.deleted=0
 		<if test="labelId != null">
 			and al.label_id = #{labelId}
+		</if>
+		<if test="publishStatus != null">
+			and a.publish_status = #{publishStatus.code}
 		</if>
 		limit #{start},#{pageSize}
 	</select>

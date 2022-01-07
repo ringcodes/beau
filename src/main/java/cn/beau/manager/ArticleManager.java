@@ -27,7 +27,7 @@ import cn.beau.dto.response.ArticleDetailVo;
 import cn.beau.dto.response.ArticleLabelVo;
 import cn.beau.dto.response.ArticleSimplePage;
 import cn.beau.enums.ArticleContentEnum;
-import cn.beau.enums.StatusEnum;
+import cn.beau.enums.PublishStatusEnum;
 import cn.beau.exception.BizException;
 import cn.beau.repository.mapper.ArticleMapper;
 import cn.beau.repository.model.ArticleEntity;
@@ -153,7 +153,6 @@ public class ArticleManager {
     }
 
     public BasePage<ArticleSimplePage> querySimpleArticlePage(ArticleQuery article) {
-
         if (StringUtils.hasText(article.getTitle())) {
             article.setTitle(article.getTitle() + "%");
         }
@@ -192,7 +191,7 @@ public class ArticleManager {
     }
 
     public List<ArticleListDto> queryRelateList(ArticleQuery query, boolean pic) {
-        query.setPublishStatus(StatusEnum.ENABLE.getCode());
+        query.setPublishStatus(PublishStatusEnum.PUBLISHED);
         List<ArticleListDto> list = articleMapper.queryArticleSimplePage(query);
         if (!CollectionUtils.isEmpty(list)) {
             list.stream().forEach(it -> {

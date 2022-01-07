@@ -18,8 +18,10 @@
 package cn.beau.dto.query;
 
 import cn.beau.base.BaseQuery;
+import cn.beau.enums.ArticleContentEnum;
 import cn.beau.enums.ArticleFlagEnum;
-import cn.beau.enums.TopicPositionEnum;
+import cn.beau.enums.PublishStatusEnum;
+import cn.beau.enums.TopicTypeEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -37,10 +39,11 @@ public class ArticleQuery extends BaseQuery {
     private Long id;
     private String title;
     private Long topicId;
-    private Integer topicType;
-    private Integer publishStatus;
+    private TopicTypeEnum topicType;
+    private PublishStatusEnum publishStatus;
     private Long labelId;
     private Long createId;
-    private Integer articleType;
+    private ArticleContentEnum articleType;
     private ArticleFlagEnum articleFlagEnum;
+    private ArticleFlagEnum flagType;
 }

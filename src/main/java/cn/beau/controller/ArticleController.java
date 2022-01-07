@@ -112,7 +112,7 @@ public class ArticleController extends CommonController {
         modelMap.put("topicName", topicName);
         modelMap.put("topicId", topicId);
 
-        query.setTopicType(TopicTypeEnum.ARTICLE.getType());
+        query.setTopicType(TopicTypeEnum.ARTICLE);
         query.setPageNumber(getPage(request));
         query.setSortColumn("create_time");
         query.setSortDesc("desc");

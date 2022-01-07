@@ -34,25 +34,25 @@ public enum TopicTypeEnum {
     VIDEO(3, "视频"),
     BOOK(4, "电子书");
 
-    private int type;
+    private int code;
     private String desc;
 
-    TopicTypeEnum(int type, String desc) {
-        this.type = type;
+    TopicTypeEnum(int code, String desc) {
+        this.code = code;
         this.desc = desc;
     }
 
     public static TopicTypeEnum ofCode(int code) {
         for (TopicTypeEnum topicTypeEnum : values()) {
-            if (topicTypeEnum.getType() == code) {
+            if (topicTypeEnum.getCode() == code) {
                 return topicTypeEnum;
             }
         }
         return null;
     }
 
-    public int getType() {
-        return type;
+    public int getCode() {
+        return code;
     }
 
     public String getDesc() {
@@ -62,7 +62,7 @@ public enum TopicTypeEnum {
     public static List<KeyValueVo> getAll() {
         List<KeyValueVo> paramVos = new ArrayList<>();
         for (TopicTypeEnum dictType : values()) {
-            paramVos.add(new KeyValueVo(dictType.name(), dictType.getDesc(), dictType.getType()));
+            paramVos.add(new KeyValueVo(dictType.name(), dictType.getDesc(), dictType.getCode()));
         }
         return paramVos;
     }

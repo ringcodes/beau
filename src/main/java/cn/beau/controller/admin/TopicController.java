@@ -62,7 +62,7 @@ public class TopicController {
         TopicEntity topic = new TopicEntity();
         topic.setId(request.getId());
         if (request.getTopicType() != null) {
-            topic.setTopicType(request.getTopicType().getType());
+            topic.setTopicType(request.getTopicType().getCode());
         }
         topic.setTopicPic(request.getTopicPic());
         topic.setTopicName(request.getTopicName());

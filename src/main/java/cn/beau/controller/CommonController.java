@@ -81,7 +81,7 @@ public class CommonController {
         if (topicId != null) {
             article.setTopicId(topicId);
         }
-        article.setTopicType(topicTypeEnum.getType());
+        article.setTopicType(topicTypeEnum);
         article.setPageSize(10);
         List<ArticleListDto> list = articleManager.queryRelateList(article, true);
         if (topicTypeEnum.equals(TopicTypeEnum.ARTICLE)) {
@@ -91,7 +91,7 @@ public class CommonController {
 
     protected void getHotArticle(ModelMap modelMap) {
         ArticleQuery article = new ArticleQuery();
-        article.setTopicType(TopicTypeEnum.ARTICLE.getType());
+        article.setTopicType(TopicTypeEnum.ARTICLE);
         article.setPageSize(6);
         List<ArticleListDto> list = articleManager.queryRelateList(article, false);
         modelMap.put("hotList", list);
