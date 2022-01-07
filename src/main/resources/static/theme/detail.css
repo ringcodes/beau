@@ -261,10 +261,12 @@ pre {
   background: var(--font-color);
   padding: 5px;
   color: #fff;
+  overflow: auto;
 }
 pre code {
   background: var(--font-color);
   color: #fff;
+  overflow: auto;
 }
 .article-comment {
   border-top: 1px solid #eee;
