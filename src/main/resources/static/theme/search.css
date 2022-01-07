@@ -250,6 +250,8 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 .article-module .article-module-body {
   display: flex;
