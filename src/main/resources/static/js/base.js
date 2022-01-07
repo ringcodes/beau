@@ -11,11 +11,7 @@ $(function () {
     url: '/auth/current',
     dataType: 'html',
     success: function (html) {
-      if (html) {
-        $("#login-action").html(html);
-      } else {
-        $("#login-action").html('<a href="javascript:;" id="login-btn">登录</a>&nbsp;<a href="/reg.html">注册</a>');
-      }
+      $("#login-action").html(html);
     }
   })
   // 搜索

@@ -71,12 +71,9 @@ public class LoginController {
 
     @GetMapping("/current")
     public String current(LoginUser loginUser) {
-        if (loginUser == null) {
-            return "";
-        }
         Map<String, Object> data = new HashMap<>();
         data.put("user", loginUser);
-        return templateComponent.generateString(data, "./layout/login.html");
+        return templateComponent.generateString(data, "./layout/loginStatus.html");
     }
 
     @PostMapping("/doLogin")
