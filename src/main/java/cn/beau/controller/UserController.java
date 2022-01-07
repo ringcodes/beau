@@ -68,7 +68,7 @@ public class UserController extends CommonController {
         setTitle(modelMap, "会员注册");
         WebRegConfigDto webRegConfig = webConfigComponent.getWebRegConfig();
         if (webRegConfig != null) {
-            modelMap.put("canReg", StatusEnum.ENABLE.equals(webRegConfig.getCanReg()));
+            modelMap.put("canReg", StatusEnum.ENABLE.getCode().equals(webRegConfig.getCanReg()));
         }
         return "reg";
     }

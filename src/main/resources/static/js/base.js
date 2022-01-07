@@ -14,7 +14,7 @@ $(function () {
       if (html) {
         $("#login-action").html(html);
       } else {
-        $("#login-action").html('<a href="javascript:;" id="login-btn">登录</a>');
+        $("#login-action").html('<a href="javascript:;" id="login-btn">登录</a>&nbsp;<a href="/reg.html">注册</a>');
       }
     }
   })

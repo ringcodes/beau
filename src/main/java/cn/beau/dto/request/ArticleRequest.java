@@ -39,6 +39,7 @@ public class ArticleRequest {
     private Integer points;
     private Long topicId;
     private PublishStatusEnum publishStatus;
+    private String sourceName;
     private String sourceUrl;
     private String titlePic;
     private ArticleFlagEnum flagType;

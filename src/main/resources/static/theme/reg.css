@@ -17,6 +17,9 @@
   text-align: center;
   padding: 10px 0px 35px 0px;
 }
+.reg-form .reg-action .forbid-reg {
+  color: red;
+}
 .reg-form .reg-action .item {
   margin-bottom: 35px;
   display: flex;

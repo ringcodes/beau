@@ -32,10 +32,10 @@ import cn.beau.exception.BizException;
 import cn.beau.repository.mapper.ArticleMapper;
 import cn.beau.repository.model.ArticleEntity;
 import cn.beau.utils.MarkdownUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,31 +85,35 @@ public class ArticleManager {
         entity.setUpdateId(articleRequest.getUpdateId());
         entity.setTitle(articleRequest.getTitle());
         entity.setTitlePic(articleRequest.getTitlePic());
-        if (StringUtils.isNotBlank(articleRequest.getContent())) {
+        if (StringUtils.hasText(articleRequest.getContent())) {
             entity.setContent(articleRequest.getContent());
         }
         entity.setPoints(articleRequest.getPoints());
-        if (articleRequest.getFlagType() != null){
+        if (articleRequest.getFlagType() != null) {
             entity.setFlagType(articleRequest.getFlagType().getCode());
         }
         entity.setSourceUrl(articleRequest.getSourceUrl());
-        if (articleRequest.getPublishStatus() != null){
+        entity.setSourceName(articleRequest.getSourceName());
+        if (StringUtils.hasText(articleRequest.getSourceUrl())) {
+            entity.setSourceType(2);
+        }
+        if (articleRequest.getPublishStatus() != null) {
             entity.setPublishStatus(articleRequest.getPublishStatus().getCode());
         }
         entity.setTopicId(articleRequest.getTopicId());
-        if (articleRequest.getArticleType() != null){
+        if (articleRequest.getArticleType() != null) {
             entity.setArticleType(articleRequest.getArticleType().getType());
         }
         entity.setSeoDesc(articleRequest.getSeoDesc());
         entity.setSeoKeys(articleRequest.getSeoKeys());
         if (exist == null) {
-            if (StringUtils.isBlank(articleRequest.getTitle())) {
+            if (StringUtils.isEmpty(articleRequest.getTitle())) {
                 throw new BizException("文章标题不能为空");
             }
-            if (StringUtils.isBlank(articleRequest.getContent())) {
+            if (StringUtils.isEmpty(articleRequest.getContent())) {
                 throw new BizException("文章内容不能为空");
             }
-            if (StringUtils.isBlank(entity.getDescription()) && StringUtils.isNotBlank(articleRequest.getContent())) {
+            if (StringUtils.isEmpty(entity.getDescription()) && StringUtils.hasText(articleRequest.getContent())) {
                 Integer len = Math.min(articleRequest.getContent().length(), 400);
                 entity.setDescription(delHtmlTags(articleRequest.getContent().substring(0, len)));
             }
@@ -117,7 +121,7 @@ public class ArticleManager {
             articleMapper.insert(entity);
         } else {
             entity.setId(exist.getId());
-            if (StringUtils.isBlank(entity.getDescription()) && StringUtils.isBlank(exist.getDescription()) && StringUtils.isNotBlank(articleRequest.getContent())) {
+            if (StringUtils.isEmpty(entity.getDescription()) && StringUtils.isEmpty(exist.getDescription()) && StringUtils.hasText(articleRequest.getContent())) {
                 Integer len = Math.min(articleRequest.getContent().length(), 400);
                 entity.setDescription(delHtmlTags(articleRequest.getContent().substring(0, len)));
             }
@@ -150,7 +154,7 @@ public class ArticleManager {
 
     public BasePage<ArticleSimplePage> querySimpleArticlePage(ArticleQuery article) {
 
-        if (StringUtils.isNotBlank(article.getTitle())) {
+        if (StringUtils.hasText(article.getTitle())) {
             article.setTitle(article.getTitle() + "%");
         }
         BasePage<ArticleSimplePage> page = new BasePage();
@@ -202,7 +206,7 @@ public class ArticleManager {
     }
 
     private String formatUrl(String url) {
-        if (StringUtils.isBlank(url)) {
+        if (StringUtils.isEmpty(url)) {
             return "";
         }
         return ossService.getViewUrl(url);
