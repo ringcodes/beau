@@ -96,6 +96,8 @@ public class ArticleManager {
         entity.setSourceName(articleRequest.getSourceName());
         if (StringUtils.hasText(articleRequest.getSourceUrl())) {
             entity.setSourceType(2);
+        } else {
+            entity.setSourceType(1);
         }
         if (articleRequest.getPublishStatus() != null) {
             entity.setPublishStatus(articleRequest.getPublishStatus().getCode());
