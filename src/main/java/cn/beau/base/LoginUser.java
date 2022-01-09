@@ -29,6 +29,7 @@ import java.io.Serializable;
  */
 @Data
 public class LoginUser implements Serializable {
+    private static final long serialVersionUID = -2870717241011088388L;
     private Long id;
     private String name;
     private Integer role = 1;

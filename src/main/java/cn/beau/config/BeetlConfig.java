@@ -38,7 +38,6 @@ import java.util.Map;
  */
 @Configuration
 public class BeetlConfig {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Bean(name = "customBeetlConfig")
     public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {

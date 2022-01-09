@@ -26,6 +26,7 @@ import java.util.List;
 
 /**
  * 配置类型
+ *
  * @author: liushilin
  * @date: 2021/6/24 7:50 下午
  */
@@ -45,9 +46,10 @@ public enum ConfigTypeEnum {
         try {
             ConfigTypeEnum.valueOf(name);
         } catch (Exception e) {
-            throw new BizException("类型不存在");
+            throw new BizException("类型不存在", e);
         }
     }
+
     public static List<KeyValueVo> getList() {
         List<KeyValueVo> paramVos = new ArrayList<>(values().length);
         for (ConfigTypeEnum configEnum : values()) {

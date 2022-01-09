@@ -81,15 +81,14 @@ public class SimpleHttpRequest {
             byte[] bresult = result.toString().getBytes();
             result = new StringBuilder(new String(bresult, StandardCharsets.UTF_8));
         } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
-            e.printStackTrace();
+            log.error("发送GET请求出现异常,URL:{}", url, e);
         } finally {
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
+                log.error("发送GET请求出现异常,URL:{}", url, e2);
             }
         }
 
@@ -115,9 +114,9 @@ public class SimpleHttpRequest {
         HttpPost httpPost = new HttpPost(url);
         // 配置请求参数实例
         RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(35000)// 设置连接主机服务超时时间
-            .setConnectionRequestTimeout(35000)// 设置连接请求超时时间
-            .setSocketTimeout(60000)// 设置读取数据连接超时时间
-            .build();
+                .setConnectionRequestTimeout(35000)// 设置连接请求超时时间
+                .setSocketTimeout(60000)// 设置读取数据连接超时时间
+                .build();
         // 为httpPost实例设置配置
         httpPost.setConfig(requestConfig);
         // 设置请求头
@@ -143,23 +142,23 @@ public class SimpleHttpRequest {
             HttpEntity entity = httpResponse.getEntity();
             result = EntityUtils.toString(entity);
         } catch (ClientProtocolException e) {
-            e.printStackTrace();
+            log.error("发送GET请求出现异常,URL:{}", url, e);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("发送GET请求出现异常,URL:{}", url, e);
         } finally {
             // 关闭资源
             if (null != httpResponse) {
                 try {
                     httpResponse.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("发送GET请求出现异常,URL:{}", url, e);
                 }
             }
             if (null != httpClient) {
                 try {
                     httpClient.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("发送GET请求出现异常,URL:{}", url, e);
                 }
             }
         }

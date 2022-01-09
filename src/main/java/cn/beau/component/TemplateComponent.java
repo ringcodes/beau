@@ -57,11 +57,11 @@ public class TemplateComponent {
             // 输出流
             File dest = new File(getFilePath(tpl));
             if (dest.exists()) {
-                boolean delete = dest.delete();
+                dest.delete();
             }
             if (!dest.getParentFile().exists()) {
                 if (!dest.getParentFile().mkdirs()) {
-                    System.out.println("创建目标文件所在目录失败！");
+                    log.error("创建目标文件所在目录失败！");
                 }
             }
             attr.put("curMenu", "");

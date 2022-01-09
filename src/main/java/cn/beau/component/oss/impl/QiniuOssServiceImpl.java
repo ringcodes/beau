@@ -79,11 +79,9 @@ public class QiniuOssServiceImpl implements OssService, InitializingBean, Dispos
             FileInfoDto fileInfoDto = new FileInfoDto();
             fileInfoDto.setFileName(fileName);
             fileInfoDto.setMd5(putRet.hash);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
         } catch (QiniuException ex) {
             Response r = ex.response;
-            System.err.println(r.toString());
+            logger.error("上传文件失败,result:{}", r, ex);
         }
         return null;
     }

@@ -52,7 +52,7 @@ public enum ConfigKeyEnum implements IConfigTypeEnum {
         try {
             ConfigKeyEnum.valueOf(name);
         } catch (Exception e) {
-            throw new BizException("类型不存在");
+            throw new BizException("类型不存在", e);
         }
     }
 

@@ -26,13 +26,13 @@ import cn.beau.exception.NoLoginException;
 import cn.beau.exception.UnauthorizedException;
 import cn.beau.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
@@ -61,15 +61,24 @@ public class AuthWebInterceptor implements HandlerInterceptor {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             StaticTag staticTag = handlerMethod.getMethod().getAnnotation(StaticTag.class);
             if (staticTag != null && templateComponent.exist(staticTag.tpl())) {
-                File file = new File(templateComponent.getFilePath(staticTag.tpl()));
-                InputStream inputStream = new FileInputStream(file);
-                ServletOutputStream sos = response.getOutputStream();
-                int len = 1;
-                byte[] b = new byte[1024];
-                while ((len = inputStream.read(b)) != -1) {
-                    sos.write(b, 0, len);
+                InputStream inputStream = null;
+                ServletOutputStream sos = null;
+                try {
+                    File file = new File(templateComponent.getFilePath(staticTag.tpl()));
+                    inputStream = new FileInputStream(file);
+                    sos = response.getOutputStream();
+                    int len = 1;
+                    byte[] b = new byte[1024];
+                    while ((len = inputStream.read(b)) != -1) {
+                        sos.write(b, 0, len);
+                    }
+                    return false;
+                } catch (Exception e) {
+                    log.error("静态化出错", e);
+                } finally {
+                    IOUtils.closeQuietly(inputStream);
+                    IOUtils.closeQuietly(sos);
                 }
-                return false;
             }
         }
         // 权限拦截
