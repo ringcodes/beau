@@ -104,7 +104,6 @@ public class SimpleHttpRequest {
     }
 
     public static String post(String url, String jsonData, Map<String, String> headerMap) {
-        System.err.println(url);
         CloseableHttpClient httpClient = null;
         CloseableHttpResponse httpResponse = null;
         String result = "";
@@ -133,7 +132,7 @@ public class SimpleHttpRequest {
                 httpPost.setEntity(new StringEntity(jsonData, "UTF-8"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("post请求错误", e);
         }
         try {
             // httpClient对象执行post请求,并返回响应参数对象
