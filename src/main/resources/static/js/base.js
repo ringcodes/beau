@@ -45,13 +45,13 @@ $(function () {
 
   $(window).scroll(function () {
     if ($(window).scrollTop() > 50) {
-      $("#btn").fadeIn(200);
+      $("#btn-top").fadeIn(200);
     } else {
-      $("#btn").fadeOut(200);
+      $("#btn-top").fadeOut(200);
     }
   });
   //当点击跳转链接后，回到页面顶部位置
-  $("#btn").click(function () {
+  $("#btn-top").click(function () {
     $('body,html').animate({
         scrollTop: 0
       },

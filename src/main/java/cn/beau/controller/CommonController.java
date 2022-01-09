@@ -25,11 +25,7 @@ import cn.beau.dto.response.LabelListVo;
 import cn.beau.enums.SliderTypeEnum;
 import cn.beau.enums.TopicPositionEnum;
 import cn.beau.enums.TopicTypeEnum;
-import cn.beau.manager.ArticleManager;
-import cn.beau.manager.ConfigManager;
-import cn.beau.manager.LabelManager;
-import cn.beau.manager.SliderManager;
-import cn.beau.manager.TopicManager;
+import cn.beau.manager.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -58,6 +54,7 @@ public class CommonController {
     private WebConfigComponent webConfigComponent;
 
     protected void setTitle(ModelMap modelMap, String title) {
+        modelMap.put("webTitle", title);
         // 菜单
         modelMap.put("menuList", topicManager.listTopicPos(TopicPositionEnum.MENU, Boolean.FALSE));
         // 配置
@@ -65,14 +62,9 @@ public class CommonController {
         if (webSiteConfigDto != null) {
             modelMap.put("webName", webSiteConfigDto.getWebName());
             modelMap.put("logoPic", webSiteConfigDto.getLogoPic());
-            if (StringUtils.hasText(webSiteConfigDto.getWebName())) {
-                modelMap.put("webTitle", webSiteConfigDto.getWebName() + "-" + title);
-            } else {
-                modelMap.put("webTitle", title);
-            }
+
         } else {
             modelMap.put("webName", "个人网");
-            modelMap.put("webTitle", title);
         }
     }
 

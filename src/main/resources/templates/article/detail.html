@@ -5,7 +5,7 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
-    <title>${webTitle!}</title>
+    <title>${webName}-${webTitle}</title>
     <meta name="keywords" content="${meta_keys!}">
     <meta name="description" content="${meta_desc!}">
     <% include("../layout/headercss.html"){} %>
@@ -89,6 +89,24 @@
             <div class="mb-20"><% include("../fragment/adModule.html"){} %></div>
             <div class=""><% include("../fragment/labelList.html"){} %></div>
         </aside>
+        <div class="tool-bar">
+            <div class="tool-bar-item" id="btn-tool-like">
+                <div class="tool-bar-pic">
+                    <svg class="icon tool-bar-icon" aria-hidden="true">
+                        <use xlink:href="#icon-dianzan"></use>
+                    </svg>
+                </div>
+                <span>点赞</span>
+            </div>
+            <div class="tool-bar-item" id="btn-tool-comment">
+                <div  class="tool-bar-pic">
+                    <svg class="icon tool-bar-icon" aria-hidden="true">
+                        <use xlink:href="#icon-pinglunxiao"></use>
+                    </svg>
+                </div>
+                <span>评论</span>
+            </div>
+        </div>
     </div>
 </div>
 <% include("../layout/footer.html"){} %>
@@ -105,6 +123,12 @@
             comment.save();
         });
         comment.loadData();
+        $("#btn-tool-like").on("click",function () {
+
+        });
+        $("#btn-tool-comment").on("click",function () {
+            window.scrollTo(0, document.body.scrollHeight);
+        });
     })
     comment.save = function () {
         $.ajax({

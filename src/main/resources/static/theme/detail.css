@@ -339,3 +339,33 @@ code {
   color: #524e4e;
   padding: 5px 10px;
 }
+.tool-bar {
+  position: fixed;
+  z-index: 98;
+  top: 216px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  left: calc((100vw - 1200px)/2 - 78px);
+}
+.tool-bar .tool-bar-item {
+  margin-bottom: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+.tool-bar .tool-bar-item .tool-bar-pic {
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.tool-bar .tool-bar-item > span {
+  font-size: 14px;
+  color: var(--font-color-desc);
+}
