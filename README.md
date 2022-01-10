@@ -67,29 +67,8 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
    docker run -d -e ENV=prod beau:lastest
    ```
 
-3. 使用安装包(推荐docker安装）  
-   下载安装包(以-install.zip结尾的文件)并解压,安装包[下载地址](https://gitee.com/ringcode/beau/releases)  
-   修改解压包中的配置文件 application-online.yaml
-   ```yaml
-   spring:
-     datasource:
-       url: jdbc:mysql://localhost:3306/beau-pro?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=CST&allowPublicKeyRetrieval=true
-       username: root
-       password: root
-   oss:
-     tencent: #腾讯OSS文件存储,腾讯OSS配置查询见 https://www.gz640.cn
-       enable: true #是否启用
-       bucket: #BUCKET
-       secret-key: # Secret Key
-       access-key: #Access Key
-       region-name: #Region Name
-   ``` 
-   执行docker命令  
-   ```
-   docker build -t beau:lastest . 
-   docker run -d -p7000:7000 -e ENV=online beau:lastest
-   ```
-   可访问 http://localhost:7000 查看
+3. docker swarm镜像安装(无需了解Java环境)    
+   [详细文档](https://www.gz640.cn/article/435.html)
 
 4. 管理后台UI  
    参考 [文档](https://gitee.com/ringcode/beau-ui)
