@@ -90,14 +90,6 @@
             <div class=""><% include("../fragment/labelList.html"){} %></div>
         </aside>
         <div class="tool-bar">
-            <div class="tool-bar-item" id="btn-tool-like">
-                <div class="tool-bar-pic">
-                    <svg class="icon tool-bar-icon" aria-hidden="true">
-                        <use xlink:href="#icon-dianzan"></use>
-                    </svg>
-                </div>
-                <span>点赞</span>
-            </div>
             <div class="tool-bar-item" id="btn-tool-comment">
                 <div  class="tool-bar-pic">
                     <svg class="icon tool-bar-icon" aria-hidden="true">
@@ -123,9 +115,6 @@
             comment.save();
         });
         comment.loadData();
-        $("#btn-tool-like").on("click",function () {
-
-        });
         $("#btn-tool-comment").on("click",function () {
             window.scrollTo(0, document.body.scrollHeight);
         });
