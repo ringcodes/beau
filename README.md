@@ -1,7 +1,9 @@
 ## 简介
 Beau是一款基于java开发的轻量级博客、个人建站平台
 > 目前Beau的所有功能均为个人开发,欢迎各位共同交流,同时如若本项目对您有所帮助,请为它点个star
-* 演示站点: [https://www.gz640.cn](https://www.gz640.cn)
+* 实例站点: [https://www.gz640.cn](https://www.gz640.cn)
+* 演示Demo：http://beau-demo.gz640.cn/
+* 后台演示Demo：http://beau-admin-demo.gz640.cn/
 
 ## 使用技术
 * 基于SpringBoot2.2.5，Mybatis，Mybatis-plus
