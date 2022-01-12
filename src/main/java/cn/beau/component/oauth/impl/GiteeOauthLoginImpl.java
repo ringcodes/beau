@@ -44,6 +44,7 @@ public class GiteeOauthLoginImpl extends AbstractOauthLogin {
             ConfigDto configDto = getConfig();
             return String.format(LOGIN_URL, configDto.getAppKey(), URLEncoder.encode(getLoginCallback(), "UTF-8"));
         } catch (Exception e) {
+            log.warn("获取配置", e);
             return null;
         }
     }
