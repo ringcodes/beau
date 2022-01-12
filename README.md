@@ -89,10 +89,6 @@ Beau是一款基于java开发的轻量级博客、个人建站平台
 ## 系统目录
 ![](https://gitee.com/lsl52640/files/raw/master/%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95.jpg)
 
-## 下一版升级规划
-1. 用户注册
-2. 文章评论功能
-3. 登录日志
-
+### 可按按需定制化，下方有联系方式  
 学习交流群(企业微信沟通更方便)  
 ![](https://gitee.com/lsl52640/files/raw/master/contact_me_qr.png)
