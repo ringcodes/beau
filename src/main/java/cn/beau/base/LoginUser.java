@@ -35,4 +35,5 @@ public class LoginUser implements Serializable {
     private Integer role = 1;
     private String avatar;
     private String ip;
+    private String token;
 }

@@ -139,6 +139,7 @@ public class AuthWebInterceptor implements HandlerInterceptor {
             loginDto = JwtUtil.verify(token);
             if (loginDto != null) {
                 loginDto.setIp(getIpAddress(request));
+                loginDto.setToken(token);
                 request.setAttribute("LOGIN_USER", loginDto);
             }
         }
