@@ -94,11 +94,6 @@ public class ArticleManager {
         }
         entity.setSourceUrl(articleRequest.getSourceUrl());
         entity.setSourceName(articleRequest.getSourceName());
-        if (StringUtils.hasText(articleRequest.getSourceUrl())) {
-            entity.setSourceType(2);
-        } else {
-            entity.setSourceType(1);
-        }
         if (articleRequest.getPublishStatus() != null) {
             entity.setPublishStatus(articleRequest.getPublishStatus().getCode());
         }
@@ -118,6 +113,11 @@ public class ArticleManager {
             if (StringUtils.isEmpty(entity.getDescription()) && StringUtils.hasText(articleRequest.getContent())) {
                 Integer len = Math.min(articleRequest.getContent().length(), 400);
                 entity.setDescription(delHtmlTags(articleRequest.getContent().substring(0, len)));
+            }
+            if (StringUtils.hasText(articleRequest.getSourceUrl())) {
+                entity.setSourceType(2);
+            } else {
+                entity.setSourceType(1);
             }
             entity.setCreateId(articleRequest.getUpdateId());
             articleMapper.insert(entity);
