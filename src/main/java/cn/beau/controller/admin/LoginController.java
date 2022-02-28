@@ -109,7 +109,7 @@ public class LoginController {
     }
 
     private void setCookie(LoginUser loginUser, HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", JwtUtil.sign(loginUser));
+        Cookie cookie = new Cookie("beau-token", JwtUtil.sign(loginUser));
         cookie.setHttpOnly(true);
         String host = webConfigComponent.getWebSiteConfig().getHost();
         if (StringUtils.hasText(host)){
