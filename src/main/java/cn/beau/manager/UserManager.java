@@ -43,7 +43,6 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -144,6 +143,7 @@ public class UserManager {
     public BasePage<UserResp> queryUserPage(UserQuery user) {
         QueryBuilder queryBuilder = QueryBuilder.init(user);
         queryBuilder.like("name", user.getName());
+        queryBuilder.eq("status", user.getStatus());
         long count = userMapper.selectCount(queryBuilder.buildCount());
         BasePage<UserResp> page = new BasePage<>();
         page.setPageNumber(user.getPageNumber());
@@ -200,7 +200,7 @@ public class UserManager {
         if (!request.getPassword().equals(request.getPasswordAgain())) {
             throw new ParamException("两次输入的密码不一样");
         }
-        if (!CheckUtil.checkEmail(request.getEmail())){
+        if (!CheckUtil.checkEmail(request.getEmail())) {
             throw new ParamException("邮箱格式不正确");
         }
         QueryWrapper queryWrapper = new QueryWrapper();
