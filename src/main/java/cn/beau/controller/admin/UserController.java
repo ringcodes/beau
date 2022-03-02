@@ -28,7 +28,7 @@ import cn.beau.dto.config.WebRegConfigDto;
 import cn.beau.dto.query.UserQuery;
 import cn.beau.dto.request.ModifyPasswordRequest;
 import cn.beau.dto.request.UserRegRequest;
-import cn.beau.enums.RoleEnum;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.manager.UserManager;
 import cn.beau.repository.model.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,35 +55,34 @@ public class UserController {
     @Autowired
     private WebConfigComponent webConfigComponent;
 
-    // rest 接口
     @PostMapping("/page")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.USER_LIST)
     public ResultObject page(@RequestBody UserQuery query) {
         return ResultUtil.newSucc(userManager.queryUserPage(query));
     }
 
     @PostMapping("/{id}/forbid")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.USER_FORBID)
     public ResultObject forbid(LoginUser loginUser, @PathVariable Long id) {
         return ResultUtil.newSucc(userManager.forbid(id, loginUser.getId()));
     }
 
     @PostMapping("/save")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.USER_EDIT)
     public ResultObject save(LoginUser loginUser, @RequestBody UserEntity userEntity) {
         userEntity.setUpdateId(loginUser.getId());
         return ResultUtil.newSucc(userManager.update(userEntity));
     }
 
     @PostMapping("/add")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.USER_ADD)
     public ResultObject add(LoginUser loginUser, @RequestBody UserEntity userEntity) {
         userEntity.setUpdateId(loginUser.getId());
         return ResultUtil.newSucc(userManager.insert(userEntity));
     }
 
     @PostMapping("/modifyPassword")
-    @AuthTag(role = RoleEnum.USER)
+    @AuthTag(name = ResourceEnum.USER_EDIT)
     public ResultObject modifyPassword(LoginUser loginUser, @RequestBody ModifyPasswordRequest resq) {
         return ResultUtil.newSucc(userManager.modifyPassword(resq, loginUser.getId()));
     }

@@ -33,6 +33,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 /**
  * 轮播管理
  *
@@ -52,7 +53,7 @@ public class SliderManager {
     }
 
     public boolean saveAndUpdate(SliderEntity slider) {
-        if (slider.getId() != null && slider.getId()> 0){
+        if (slider.getId() != null && slider.getId() > 0) {
             return sliderMapper.updateById(slider) > 0;
         } else {
             slider.setCreateId(slider.getUpdateId());
@@ -66,8 +67,10 @@ public class SliderManager {
         BasePage<SliderResp> page = new BasePage();
         page.setPageSize(slider.getPageSize());
         page.setPageNumber(slider.getPageNumber());
-        queryWrapper.eq("slider_status",0);
-        queryWrapper.eq("deleted",0);
+        if (slider.getStatusEnum() != null) {
+            queryWrapper.eq("slider_status", slider.getStatusEnum().getCode());
+        }
+        queryWrapper.eq("deleted", 0);
         if (slider.getSliderType() != null) {
             queryWrapper.eq("slider_type", slider.getSliderType().getCode());
         }
@@ -91,7 +94,7 @@ public class SliderManager {
         sliderResp.setTitle(it.getTitle());
         sliderResp.setPic(ossService.getViewUrl(it.getPic()));
         SliderTypeEnum sliderTypeEnum = SliderTypeEnum.ofCode(it.getSliderType());
-        sliderResp.setSliderType(new KeyValueVo(sliderTypeEnum.name(),sliderTypeEnum.getDesc(),sliderTypeEnum.getTips()));
+        sliderResp.setSliderType(new KeyValueVo(sliderTypeEnum.name(), sliderTypeEnum.getDesc(), sliderTypeEnum.getTips()));
         sliderResp.setTarget(it.getTarget());
         sliderResp.setSliderStatus(it.getStatus());
         sliderResp.setUpdateTime(it.getUpdateTime());
@@ -109,7 +112,7 @@ public class SliderManager {
     public List<SliderResp> queryByPosition(SliderTypeEnum positionEnum) {
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("slider_type", positionEnum.getCode());
-        queryWrapper.eq("slider_status",0);
+        queryWrapper.eq("slider_status", 0);
         List<SliderEntity> list = sliderMapper.selectList(queryWrapper);
         if (!CollectionUtils.isEmpty(list)) {
             List<SliderResp> result = new ArrayList<>();

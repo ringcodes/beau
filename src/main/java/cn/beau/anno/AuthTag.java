@@ -18,12 +18,13 @@
 package cn.beau.anno;
 
 
-import cn.beau.enums.RoleEnum;
+import cn.beau.enums.ResourceEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
 /**
  * 权限注解
  *
@@ -38,7 +39,5 @@ public @interface AuthTag {
      *
      * @return
      */
-    String name() default "";
-
-    RoleEnum[] role() default {};
+    ResourceEnum[] name() default {};
 }

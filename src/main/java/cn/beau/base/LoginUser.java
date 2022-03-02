@@ -20,6 +20,7 @@ package cn.beau.base;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 登录用户
@@ -36,4 +37,5 @@ public class LoginUser implements Serializable {
     private String avatar;
     private String ip;
     private String token;
+    private List<String> menuList;
 }

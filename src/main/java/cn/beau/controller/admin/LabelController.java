@@ -22,6 +22,7 @@ import cn.beau.base.LoginUser;
 import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
 import cn.beau.dto.query.LabelQuery;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.enums.RoleEnum;
 import cn.beau.manager.LabelManager;
 import cn.beau.repository.model.LabelEntity;
@@ -46,19 +47,19 @@ public class LabelController {
     private LabelManager labelManager;
 
     @GetMapping("/list")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.LABEL_LIST)
     public ResultObject list() {
         return ResultUtil.newSucc(labelManager.listAll());
     }
 
     @PostMapping("/page")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.LABEL_LIST)
     public ResultObject page(@RequestBody LabelQuery query) {
         return ResultUtil.newSucc(labelManager.queryLabelPage(query));
     }
 
     @PostMapping("/save")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.LABEL_EDIT)
     public ResultObject save(LoginUser loginUser, @RequestBody LabelEntity labelEntity) {
         labelEntity.setCreateId(loginUser.getId());
         labelEntity.setUpdateId(loginUser.getId());
@@ -66,7 +67,7 @@ public class LabelController {
     }
 
     @DeleteMapping("/del/{id}")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.LABEL_DEL)
     public ResultObject del(LoginUser loginUser, @PathVariable Long id) {
         return ResultUtil.newSucc(labelManager.delLabel(id, loginUser.getId()));
     }

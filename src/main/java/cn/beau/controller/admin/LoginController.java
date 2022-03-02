@@ -27,6 +27,8 @@ import cn.beau.component.oauth.OauthFactory;
 import cn.beau.component.oauth.OauthTypeEnum;
 import cn.beau.dto.request.LoginRequest;
 import cn.beau.manager.LoginManager;
+import cn.beau.manager.RolePermitManager;
+import cn.beau.repository.model.RolePermitEntity;
 import cn.beau.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -61,6 +63,8 @@ public class LoginController {
     private TemplateComponent templateComponent;
     @Autowired
     private WebConfigComponent webConfigComponent;
+    @Autowired
+    private RolePermitManager rolePermitManager;
 
     @PostMapping("/login")
     public ResultObject login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
@@ -105,6 +109,7 @@ public class LoginController {
 
     @GetMapping("/info")
     public ResultObject info(LoginUser loginUser) {
+        loginUser.setMenuList(rolePermitManager.getPermit(Long.valueOf(loginUser.getRole()), RolePermitEntity.MENU));
         return ResultUtil.newSucc(loginUser);
     }
 
@@ -112,7 +117,7 @@ public class LoginController {
         Cookie cookie = new Cookie("beau-token", JwtUtil.sign(loginUser));
         cookie.setHttpOnly(true);
         String host = webConfigComponent.getWebSiteConfig().getHost();
-        if (StringUtils.hasText(host)){
+        if (StringUtils.hasText(host)) {
             Integer index = host.indexOf(".");
             cookie.setDomain(host.substring(index + 1));
         }

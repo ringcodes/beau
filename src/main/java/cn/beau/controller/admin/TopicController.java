@@ -24,6 +24,7 @@ import cn.beau.base.ResultUtil;
 import cn.beau.dto.query.TopicQuery;
 import cn.beau.dto.request.TopicRequest;
 import cn.beau.dto.request.TopicSortRequest;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.enums.RoleEnum;
 import cn.beau.enums.TopicPositionEnum;
 import cn.beau.enums.TopicTypeEnum;
@@ -45,19 +46,19 @@ public class TopicController {
     private TopicManager topicManager;
 
     @GetMapping("/list/{type}")
+    @AuthTag(name = ResourceEnum.TOPIC_LIST)
     public ResultObject list(@PathVariable TopicTypeEnum type) {
-
         return ResultUtil.newSucc(topicManager.queryTopicByType(type));
     }
 
     @PostMapping("/page")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.TOPIC_LIST)
     public ResultObject page(@RequestBody TopicQuery topicQuery) {
         return ResultUtil.newSucc(topicManager.queryTopicPage(topicQuery));
     }
 
     @PostMapping("/save")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.TOPIC_EDIT)
     public ResultObject save(LoginUser loginUser, @RequestBody TopicRequest request) {
         TopicEntity topic = new TopicEntity();
         topic.setId(request.getId());
@@ -75,13 +76,13 @@ public class TopicController {
     }
 
     @DeleteMapping("/del/{id}")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.TOPIC_DEL)
     public ResultObject del(LoginUser loginUser, @PathVariable Long id) {
         return ResultUtil.newSucc(topicManager.delTopic(id, loginUser.getId()));
     }
 
     @PostMapping("/topicSort")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.TOPIC_EDIT)
     public ResultObject topicSort(LoginUser loginUser, @RequestBody TopicSortRequest topicSortRequest) {
         return ResultUtil.newSucc(topicManager.sort(loginUser.getId(), topicSortRequest));
     }

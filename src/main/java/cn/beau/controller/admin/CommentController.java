@@ -22,9 +22,8 @@ import cn.beau.base.LoginUser;
 import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
 import cn.beau.dto.query.CommentQuery;
-import cn.beau.enums.RoleEnum;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.manager.CommentManager;
-import cn.beau.repository.model.CommentEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,17 +46,9 @@ public class CommentController {
     private CommentManager commentManager;
 
     @PostMapping("/page")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.COMMENT_LIST)
     public ResultObject page(@RequestBody CommentQuery query) {
         return ResultUtil.newSucc(commentManager.queryCommentPage(query));
-    }
-
-    @PostMapping("/save")
-    @AuthTag(role = RoleEnum.USER)
-    public ResultObject save(LoginUser loginUser, @RequestBody CommentEntity comment) {
-        comment.setCreateId(loginUser.getId());
-        comment.setUpdateId(loginUser.getId());
-        return ResultUtil.newSucc(commentManager.saveAndUpdate(comment));
     }
 
     @GetMapping("/list/{articleId}")
@@ -66,7 +57,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/del/{id}")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.COMMENT_DEL)
     public ResultObject del(LoginUser loginUser, @PathVariable Long id) {
         return ResultUtil.newSucc(commentManager.delComment(id, loginUser.getId()));
     }

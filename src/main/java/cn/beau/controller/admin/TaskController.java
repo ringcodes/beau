@@ -20,6 +20,7 @@ package cn.beau.controller.admin;
 import cn.beau.anno.AuthTag;
 import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.enums.RoleEnum;
 import cn.beau.task.ITask;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class TaskController {
     private List<ITask> taskList;
 
     @GetMapping("/{taskName}")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.TASK_RUN)
     public ResultObject doRun(@PathVariable String taskName){
         taskList.forEach(it -> {
             if (it.name().equals(taskName)){

@@ -24,7 +24,7 @@ import cn.beau.base.ResultUtil;
 import cn.beau.dto.query.ConfigQuery;
 import cn.beau.enums.ConfigKeyEnum;
 import cn.beau.enums.ConfigTypeEnum;
-import cn.beau.enums.RoleEnum;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.manager.ConfigManager;
 import cn.beau.repository.model.ConfigEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +51,7 @@ public class ConfigController {
     private ConfigManager configManager;
 
     @PostMapping("/save")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.CONFIG_EDIT)
     public ResultObject save(LoginUser userLoginDto, @RequestBody ConfigEntity config) {
         if (StringUtils.isBlank(config.getConfigType())) {
             return ResultUtil.newFailed("biz不能为空");
@@ -62,7 +62,7 @@ public class ConfigController {
     }
 
     @GetMapping("/{type}/{key}")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.CONFIG_LIST)
     public ResultObject getByBiz(@PathVariable("type") ConfigTypeEnum configTypeEnum, @PathVariable("key") ConfigKeyEnum config) {
         return ResultUtil.newSucc(configManager.getConfigContent(configTypeEnum, config));
     }
@@ -73,26 +73,26 @@ public class ConfigController {
     }
 
     @DeleteMapping("/del/{id}")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.CONFIG_DEL)
     public ResultObject del(LoginUser userLoginDto, @PathVariable Long id) {
         return ResultUtil.newSucc(configManager.delConfig(id, userLoginDto.getId()));
     }
 
 
     @GetMapping("/get/{id}")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.CONFIG_LIST)
     public ResultObject get(@PathVariable Long id) {
         return ResultUtil.newSucc(configManager.getConfigById(id));
     }
 
     @PostMapping("/page")
-    @AuthTag(role = {RoleEnum.PRE_ADMIN})
+    @AuthTag(name = ResourceEnum.CONFIG_LIST)
     public ResultObject list(@RequestBody ConfigQuery config) {
         return ResultUtil.newSucc(configManager.queryConfigPage(config));
     }
 
     @PostMapping("/query")
-    @AuthTag(role = {RoleEnum.PRE_ADMIN})
+    @AuthTag(name = ResourceEnum.CONFIG_LIST)
     public ResultObject query(@RequestBody ConfigQuery config) {
         return ResultUtil.newSucc(configManager.query(config));
     }

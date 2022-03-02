@@ -27,6 +27,6 @@ import org.slf4j.event.Level;
 public class UnauthorizedException extends BizException {
 
     public UnauthorizedException() {
-        super("无权限", StateCode.NOT_RIGHT, Level.DEBUG);
+        super("无操作权限", StateCode.NOT_RIGHT, Level.DEBUG);
     }
 }

@@ -17,7 +17,12 @@
 
 package cn.beau.enums;
 
+import cn.beau.base.KeyValueVo;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 角色类型
  *
@@ -26,14 +31,26 @@ import lombok.Getter;
  */
 @Getter
 public enum RoleEnum {
-    SYS(20),
-    ADMIN(10),
-    PRE_ADMIN(3),
-    USER(1);
+    SYS(99, "系统管理员"),
+    ADMIN(10, "超级管理员"),
+    PRE_ADMIN(3, "普通管理员"),
+    USER(1, "普通用户");
 
     private int code;
+    private String desc;
 
-    RoleEnum(int code) {
+    RoleEnum(int code, String desc) {
         this.code = code;
+        this.desc = desc;
+    }
+
+    public static List<KeyValueVo> listAll() {
+        List<KeyValueVo> list = new ArrayList<>();
+        for (RoleEnum r : values()) {
+            if (r != RoleEnum.SYS){
+                list.add(new KeyValueVo(r.name(), r.getDesc(), r.getCode()));
+            }
+        }
+        return list;
     }
 }

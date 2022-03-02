@@ -23,6 +23,7 @@ import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
 import cn.beau.dto.query.SliderQuery;
 import cn.beau.dto.request.SliderRequest;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.enums.RoleEnum;
 import cn.beau.enums.SliderTypeEnum;
 import cn.beau.manager.SliderManager;
@@ -50,13 +51,13 @@ public class SliderController {
     private SliderManager sliderManager;
 
     @GetMapping("/list")
-    @AuthTag(role = {RoleEnum.PRE_ADMIN})
+    @AuthTag(name = ResourceEnum.SLIDER_LIST)
     public ResultObject list(SliderQuery config) {
         return ResultUtil.newSucc(sliderManager.querySliderPage(config));
     }
 
     @PostMapping("/save")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.SLIDER_EDIT)
     public ResultObject save(LoginUser userLoginDto, @RequestBody SliderRequest sliderRequest) {
         SliderEntity slider = new SliderEntity();
         if (sliderRequest.getSliderType() != null){
@@ -74,14 +75,14 @@ public class SliderController {
     }
 
     @DeleteMapping("/del/{id}")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.SLIDER_DEL)
     public ResultObject del(LoginUser userLoginDto, @PathVariable Long id) {
         return ResultUtil.newSucc(sliderManager.delSlider(id, userLoginDto.getId()));
     }
 
 
     @RequestMapping("/get/{id}")
-    @AuthTag(role = RoleEnum.ADMIN)
+    @AuthTag(name = ResourceEnum.SLIDER_LIST)
     public ResultObject get(@PathVariable Long id) {
         return ResultUtil.newSucc(sliderManager.getSliderById(id));
     }

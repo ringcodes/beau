@@ -24,6 +24,7 @@ import cn.beau.component.TemplateComponent;
 import cn.beau.enums.RoleEnum;
 import cn.beau.exception.NoLoginException;
 import cn.beau.exception.UnauthorizedException;
+import cn.beau.manager.RolePermitManager;
 import cn.beau.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -53,6 +54,8 @@ import java.io.InputStream;
 public class AuthWebInterceptor implements HandlerInterceptor {
     @Autowired
     private TemplateComponent templateComponent;
+    @Autowired
+    private RolePermitManager rolePermitManager;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -110,14 +113,15 @@ public class AuthWebInterceptor implements HandlerInterceptor {
             if (loginUser == null) {
                 throw new NoLoginException();
             }
-            if (requiredPermission.role().length == 0) {
+            if (loginUser.getRole() == RoleEnum.SYS.getCode()) {
+                return;
+            }
+            if (requiredPermission.name().length == 0) {
                 return;
             }
             // 如果标记了注解，则判断权限
-            for (RoleEnum roleEnum : requiredPermission.role()) {
-                if (roleEnum.getCode() <= loginUser.getRole()) {
-                    return;
-                }
+            if (rolePermitManager.getPermit(Long.valueOf(loginUser.getRole())).contains(requiredPermission.name()[0].name())) {
+                return;
             }
             throw new UnauthorizedException();
         }

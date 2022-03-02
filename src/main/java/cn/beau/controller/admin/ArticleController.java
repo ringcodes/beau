@@ -24,7 +24,7 @@ import cn.beau.base.ResultUtil;
 import cn.beau.dto.query.ArticleQuery;
 import cn.beau.dto.request.ArticleRequest;
 import cn.beau.dto.response.ArticleDetailVo;
-import cn.beau.enums.RoleEnum;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.manager.ArticleManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,19 +50,21 @@ public class ArticleController {
 
     @PostMapping("/list")
     @ResponseBody
+    @AuthTag(name = ResourceEnum.ARTICLE_LIST)
     public ResultObject list(@RequestBody ArticleQuery articleQuery) {
         return ResultUtil.newSucc(articleManager.querySimpleArticlePage(articleQuery));
     }
 
     @GetMapping("/getById/{id}")
     @ResponseBody
+    @AuthTag(name = ResourceEnum.ARTICLE_LIST)
     public ResultObject getById(@PathVariable Long id) {
         ArticleDetailVo article = articleManager.getArticleAndContent(id);
         return ResultUtil.newSucc(article);
     }
 
     @PostMapping(value = "/save")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.ARTICLE_EDIT)
     @ResponseBody
     public ResultObject save(LoginUser loginUser, @RequestBody ArticleRequest articleRequest) {
         articleRequest.setUpdateId(loginUser.getId());
@@ -70,7 +72,7 @@ public class ArticleController {
     }
 
     @DeleteMapping(value = "del/{id}")
-    @AuthTag(role = RoleEnum.PRE_ADMIN)
+    @AuthTag(name = ResourceEnum.ARTICLE_DEL)
     @ResponseBody
     public ResultObject del(LoginUser loginUser, @PathVariable Long id) {
         return ResultUtil.newSucc(articleManager.delArticle(id, loginUser.getId()));

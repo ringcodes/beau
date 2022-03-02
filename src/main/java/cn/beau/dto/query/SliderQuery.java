@@ -19,6 +19,7 @@ package cn.beau.dto.query;
 
 import cn.beau.base.BaseQuery;
 import cn.beau.enums.SliderTypeEnum;
+import cn.beau.enums.StatusEnum;
 import lombok.Data;
 /**
  * 轮播查询
@@ -29,4 +30,5 @@ import lombok.Data;
 @Data
 public class SliderQuery extends BaseQuery {
     private SliderTypeEnum sliderType;
+    private StatusEnum statusEnum;
 }

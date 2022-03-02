@@ -17,11 +17,13 @@
 
 package cn.beau.controller.admin;
 
+import cn.beau.anno.AuthTag;
 import cn.beau.base.LoginUser;
 import cn.beau.base.ResultObject;
 import cn.beau.base.ResultUtil;
 import cn.beau.component.oss.OssService;
 import cn.beau.dto.FileInfoDto;
+import cn.beau.enums.ResourceEnum;
 import cn.beau.enums.UploadSourceEnum;
 import cn.beau.manager.UploadFileManger;
 import cn.beau.repository.model.UploadFileEntity;
@@ -50,8 +52,8 @@ public class FileController {
     @Autowired
     private UploadFileManger uploadFileManger;
 
-
     @PostMapping("/upload")
+    @AuthTag(name = ResourceEnum.FILE_UPLOAD)
     public ResultObject upload(LoginUser loginUser, @RequestParam("file") MultipartFile file, @RequestParam String source, @RequestParam String code) throws IOException {
         UploadSourceEnum uploadSourceEnum = UploadSourceEnum.valueOf(source);
         Integer index = file.getOriginalFilename().lastIndexOf(".");
