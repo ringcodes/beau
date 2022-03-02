@@ -29,7 +29,16 @@ public class RolePermitManager {
         .build();
 
     public List<String> getPermit(Long role) {
-        return getPermit(role, RolePermitEntity.API);
+        List<String> list = new ArrayList<>();
+        List<String> apiList = getPermit(role, RolePermitEntity.API);
+        if (!CollectionUtils.isEmpty(apiList)){
+            list.addAll(apiList);
+        }
+        List<String> menuList = getPermit(role, RolePermitEntity.MENU);
+        if (!CollectionUtils.isEmpty(menuList)){
+            list.addAll(menuList);
+        }
+        return list;
     }
 
     public List<String> getPermit(Long role, Integer type) {

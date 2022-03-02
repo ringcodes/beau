@@ -25,6 +25,7 @@ import cn.beau.enums.RoleEnum;
 import cn.beau.exception.NoLoginException;
 import cn.beau.exception.UnauthorizedException;
 import cn.beau.manager.RolePermitManager;
+import cn.beau.repository.model.RolePermitEntity;
 import cn.beau.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -120,7 +121,7 @@ public class AuthWebInterceptor implements HandlerInterceptor {
                 return;
             }
             // 如果标记了注解，则判断权限
-            if (rolePermitManager.getPermit(Long.valueOf(loginUser.getRole())).contains(requiredPermission.name()[0].name())) {
+            if (rolePermitManager.getPermit(Long.valueOf(loginUser.getRole()), RolePermitEntity.API).contains(requiredPermission.name()[0].name())) {
                 return;
             }
             throw new UnauthorizedException();
