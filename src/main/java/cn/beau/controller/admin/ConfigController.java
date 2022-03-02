@@ -50,6 +50,16 @@ public class ConfigController {
     @Autowired
     private ConfigManager configManager;
 
+    @GetMapping("/queryLink")
+    public ResultObject queryLink() {
+        ConfigQuery config = new ConfigQuery();
+        config.setConfigKeyEnum(ConfigKeyEnum.LINK);
+        config.setConfigTypeEnum(ConfigTypeEnum.WEB_CONFIG);
+        config.setQueryContent(Boolean.TRUE);
+        return ResultUtil.newSucc(configManager.queryConfigPage(config));
+    }
+
+
     @PostMapping("/save")
     @AuthTag(name = ResourceEnum.CONFIG_EDIT)
     public ResultObject save(LoginUser userLoginDto, @RequestBody ConfigEntity config) {
