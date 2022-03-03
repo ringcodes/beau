@@ -23,7 +23,7 @@ public class RolePermitManager {
     @Autowired
     private RolePermitMapper rolePermitMapper;
     // 缓存
-    private Cache<String, List<String>> userCache = Caffeine.newBuilder()
+    private Cache<String, List<String>> cache = Caffeine.newBuilder()
         .expireAfterAccess(1, TimeUnit.MINUTES)
         .maximumSize(1000)
         .build();
@@ -31,11 +31,11 @@ public class RolePermitManager {
     public List<String> getPermit(Long role) {
         List<String> list = new ArrayList<>();
         List<String> apiList = getPermit(role, RolePermitEntity.API);
-        if (!CollectionUtils.isEmpty(apiList)){
+        if (!CollectionUtils.isEmpty(apiList)) {
             list.addAll(apiList);
         }
         List<String> menuList = getPermit(role, RolePermitEntity.MENU);
-        if (!CollectionUtils.isEmpty(menuList)){
+        if (!CollectionUtils.isEmpty(menuList)) {
             list.addAll(menuList);
         }
         return list;
@@ -43,13 +43,13 @@ public class RolePermitManager {
 
     public List<String> getPermit(Long role, Integer type) {
         String key = role + "#" + type;
-        List<String> data = userCache.getIfPresent(key);
+        List<String> data = cache.getIfPresent(key);
         if (!CollectionUtils.isEmpty(data)) {
             return data;
         }
         data = queryPermitCode(role, type);
         if (!CollectionUtils.isEmpty(data)) {
-            userCache.put(key, data);
+            cache.put(key, data);
         }
         return data;
     }
@@ -92,7 +92,8 @@ public class RolePermitManager {
             rolePermitSave.setPermitType(type);
             saves.add(rolePermitSave);
         });
-        userCache.invalidate(roleEnum.getCode());
+        cache.invalidate(roleEnum.getCode() + "#" + RolePermitEntity.MENU);
+        cache.invalidate(roleEnum.getCode() + "#" + RolePermitEntity.API);
         return rolePermitMapper.batchInsert(saves) > 0;
     }
 }

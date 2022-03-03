@@ -109,7 +109,9 @@ public class LoginController {
 
     @GetMapping("/info")
     public ResultObject info(LoginUser loginUser) {
-        loginUser.setMenuList(rolePermitManager.getPermit(Long.valueOf(loginUser.getRole()), RolePermitEntity.MENU));
+        if (loginUser != null){
+            loginUser.setMenuList(rolePermitManager.getPermit(Long.valueOf(loginUser.getRole()), RolePermitEntity.MENU));
+        }
         return ResultUtil.newSucc(loginUser);
     }
 
